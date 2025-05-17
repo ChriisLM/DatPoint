@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from app.models.user_model import UserCreate, UserOut
 from app.services.user_services import create_user, get_user_by_email
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.post("/register", response_model=UserOut,status_code=status.HTTP_201_CREATED)
 async def register_user(user: UserCreate):
