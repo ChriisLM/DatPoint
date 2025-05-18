@@ -1,7 +1,10 @@
-from app.models.user_model import UserCreate, UserOut
+from fastapi import Depends, HTTPException
+from app.models.user_model import UserCreate, UserOut, UserUpdate
 from app.database.supabase_client import supabase as supabase_Configured
 from uuid import UUID
 from typing import Optional
+
+from app.services.auth_services import get_current_user
 
 supabase = supabase_Configured
 
@@ -30,3 +33,16 @@ def get_user_by_id(user_id: UUID) -> Optional[UserOut]:
     return None
   
   return UserOut(**response.data)
+
+def update_current_user(user_update: UserUpdate, current_user: dict = Depends(get_current_user)):
+  update_data = user_update.model_dump(exclude_unset=True)
+  
+  if not update_data:
+    raise HTTPException(status_code=400, detail="No data provided for update.")
+
+  response = supabase.table("users").update(update_data).eq("id", current_user["id"]).execute()
+  
+  if response.error:
+    raise HTTPException(status_code=500, detail="Error updating user")
+
+  return {"message": "User updated successfully", "data": response.data[0]}

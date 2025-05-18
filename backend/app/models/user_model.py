@@ -12,6 +12,10 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
   password: str
 
+class UserUpdate(BaseModel):
+  username: str
+  email: EmailStr
+
 class UserOut(UserBase):
   id: UUID
   created_at: datetime
