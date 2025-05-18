@@ -46,3 +46,11 @@ def update_current_user(user_update: UserUpdate, current_user: dict = Depends(ge
     raise HTTPException(status_code=500, detail="Error updating user")
 
   return {"message": "User updated successfully", "data": response.data[0]}
+
+def delete_current_user(current_user: dict = Depends(get_current_user)):
+  response = supabase.table("users").delete().eq("id", current_user["id"]).execute()
+
+  if response.error:
+    raise HTTPException(status_code=500, detail="Error deleting user")
+
+  return {"message": "User deleted successfully"}
