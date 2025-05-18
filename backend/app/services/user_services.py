@@ -1,4 +1,3 @@
-from supabase import create_client
 from app.models.user_model import UserCreate, UserOut
 from app.database.supabase_client import supabase as supabase_Configured
 from uuid import UUID

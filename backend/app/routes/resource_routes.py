@@ -1,5 +1,3 @@
-# app/routes/resource_routes.py
-
 from fastapi import APIRouter, HTTPException, status
 from app.models.resource_model import ResourceCreate, ResourceOut
 from app.services.resource_services import create_resource, get_resource_by_id

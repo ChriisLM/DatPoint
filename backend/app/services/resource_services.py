@@ -1,4 +1,3 @@
-from supabase import create_client
 from app.models.resource_model import ResourceCreate, ResourceOut
 from app.database.supabase_client import supabase
 from uuid import UUID
