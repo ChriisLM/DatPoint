@@ -1,4 +1,4 @@
-from app.models.resource_model import ResourceCreate, ResourceOut
+from app.models.resource_model import ResourceCreate, ResourceOut, ResourceUpdate
 from app.database.supabase_client import supabase
 from uuid import UUID
 from typing import Optional, List
@@ -27,3 +27,16 @@ def list_resources_by_user(user_id: UUID) -> List[ResourceOut]:
         raise Exception("Error fetching resources")
     
     return [ResourceOut(**item) for item in response.data]
+
+def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user_id: UUID) -> ResourceOut | None:
+    existing = supabase.table("resource").select("*").eq("id", resource_id).eq("user_id", user_id).execute()
+    if not existing.data:
+        return None
+    
+    response = supabase.table("resource").update(resource_data.model_dump(exclude_unset=True)).eq("id", resource_id).execute()
+    
+    if response.error:
+        raise Exception("Error updating resource")
+    
+    updated = response.data[0]
+    return ResourceOut(**updated)

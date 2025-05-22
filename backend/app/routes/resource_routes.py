@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
-from app.models.resource_model import ResourceCreate, ResourceOut
+from app.models.resource_model import ResourceCreate, ResourceOut, ResourceUpdate
 from app.services.resource_services import create_resource, get_resource_by_id, list_resources_by_user
 from uuid import UUID
 
@@ -25,3 +25,10 @@ async def get_resource(resource_id: UUID):
     if not resource:
         raise HTTPException(status_code=404, detail="Resource not found")
     return resource
+
+@router.patch("/{resource_id}", response_model=ResourceOut)
+async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user: UserBase = Depends(get_current_user)):
+    updated_resource = await update_resource(resource_id, resource_data, user["id"])
+    if not updated_resource:
+        raise HTTPException(status_code=404, detail="Resource not found or not yours")
+    return updated_resource
