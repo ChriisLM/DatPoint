@@ -2,12 +2,12 @@ from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from app.config import settings
-from app.models.user_model import UserBase
+from app.models.user_model import UserOut
 from app.services.user_services import get_user_by_id
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
-def get_current_user(token: str = Depends(oauth2_scheme)) -> UserBase:
+def get_current_user(token: str = Depends(oauth2_scheme)) -> UserOut:
   try:
     payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
     user_id: str = payload.get("sub")
