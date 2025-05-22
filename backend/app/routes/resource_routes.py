@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.models.resource_model import ResourceCreate, ResourceOut, ResourceUpdate
-from app.services.resource_services import create_resource, get_resource_by_id, list_resources_by_user
+from app.services.resource_services import create_resource, delete_resource_by_id, get_resource_by_id, list_resources_by_user
 from uuid import UUID
 
 from app.models.user_model import UserBase
@@ -32,3 +32,7 @@ async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user
     if not updated_resource:
         raise HTTPException(status_code=404, detail="Resource not found or not yours")
     return updated_resource
+
+@router.delete("/{resource_id}")
+async def delete_resource(resourcce_id: UUID):
+    return delete_resource_by_id(resourcce_id)

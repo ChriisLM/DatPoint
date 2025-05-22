@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from app.models.resource_model import ResourceCreate, ResourceOut, ResourceUpdate
 from app.database.supabase_client import supabase
 from uuid import UUID
@@ -40,3 +41,11 @@ def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user_id: U
     
     updated = response.data[0]
     return ResourceOut(**updated)
+
+def delete_resource_by_id(resource_id: UUID):
+    response = supabase.table("resource").delete().eq("id", resource_id).execute()
+    
+    if response.error:
+        raise HTTPException(status_code=500, detail="Error deleting resource")
+    
+    return {"message": "Resource deleted successfully"}
