@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
-from app.models.user_model import UserCreate, UserOut
+from app.models.user_model import UserCreate, UserLogin, UserOut
 from app.services.user_services import create_user, get_user_by_email
+from app.models.auth_models import TokenOut
+from app.services.auth_services import login_user_service
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -13,3 +15,6 @@ async def register_user(user: UserCreate):
   new_user = await create_user(user)
   return new_user
 
+@router.post("/login", response_model=TokenOut)
+async def login_user(user: UserLogin):
+    return await login_user_service(user)
