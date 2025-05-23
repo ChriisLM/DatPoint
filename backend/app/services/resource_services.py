@@ -30,7 +30,8 @@ def list_resources_by_user(user_id: UUID) -> List[ResourceOut]:
     return [ResourceOut(**item) for item in response.data]
 
 def list_resources_by_format(format: str) -> List[ResourceOut]:
-    response = supabase.table("resource").select("*").eq("format", format).execute()
+    normalized_format = format.lower()
+    response = supabase.table("resource").select("*").ilike("format", normalized_format).execute()
     
     if response.error:
         raise Exception("Error fetching resources")
