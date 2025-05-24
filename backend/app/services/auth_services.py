@@ -6,7 +6,7 @@ from app.utils.security import create_access_token, verify_password
 
 async def login_user_service(user: UserLogin) -> TokenOut:
   db_user = await get_user_by_email(user.email)
-  if not db_user or not verify_password(user.password, db_user.hashed_password):
+  if not db_user or not verify_password(user.hash_password, db_user.hash_password):
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
   token_data = {"sub": db_user.id}
