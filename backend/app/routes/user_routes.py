@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from app.models.user_model import UserBase, UserOut, UserUpdate
-from app.services.auth_services import get_current_user
-from app.services.user_services import delete_current_user, update_current_user
+from app.services.user_services import delete_current_user, get_current_user, update_current_user
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

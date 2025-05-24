@@ -5,7 +5,7 @@ from app.services.resource_services import create_resource, delete_resource_by_i
 from uuid import UUID
 
 from app.models.user_model import UserBase
-from app.services.auth_services import get_current_user
+from app.services.user_services import get_current_user
 
 router = APIRouter(prefix="/resources", tags=["Resources"])
 
