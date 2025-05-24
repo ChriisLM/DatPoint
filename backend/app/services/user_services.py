@@ -10,15 +10,19 @@ from app.config import settings
 supabase = supabase_Configured
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
-def create_user(user_data: UserCreate) -> UserOut:
+async def create_user(user_data: UserCreate) -> UserOut:
   response = supabase.table("users").insert(user_data.model_dump()).execute()
-  if response.error:
-    raise Exception(f"Error creating user: {response.error.message}")
+  
+  if hasattr(response, 'error') and response.error:
+    raise Exception(f"Error creating user: {response.error}")
+  
+  if not response.data or len(response.data) == 0:
+    raise Exception("No user data returned after creation")
   
   created_user = response.data[0]
   return UserOut(**created_user)
 
-def get_current_user(token: str = Depends(oauth2_scheme)) -> UserOut:
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserOut:
   try:
     payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
     user_id: str = payload.get("sub")
@@ -27,28 +31,35 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> UserOut:
   except JWTError:
     raise HTTPException(status_code=401, detail="Invalid token")
 
-  user = get_user_by_id(user_id)
+  user = await get_user_by_id(user_id)
   if user is None:
     raise HTTPException(status_code=404, detail="User not found")
   return user
 
-def get_user_by_email(email: str) -> Optional[UserOut]:
+async def get_user_by_email(email: str) -> Optional[UserOut]:
   response = supabase.table("users").select("*").eq("email", email).execute()
-  if response.error:
+  
+  if hasattr(response, 'error') and response.error:
     return None
   
-  user = response.data
+  if not response.data or len(response.data) == 0:
+    return None
+  
+  user = response.data[0]
   return UserOut(**user)
 
-def get_user_by_id(user_id: UUID) -> Optional[UserOut]:
+async def get_user_by_id(user_id: UUID) -> Optional[UserOut]:
   response = supabase.table("users").select("*").eq("id", str(user_id)).single().execute()
   
-  if response.error:
+  if hasattr(response, 'error') and response.error:
+    return None
+  
+  if not response.data:
     return None
   
   return UserOut(**response.data)
 
-def update_current_user(user_update: UserUpdate, current_user: dict = Depends(get_current_user)):
+async def update_current_user(user_update: UserUpdate, current_user: dict = Depends(get_current_user)):
   update_data = user_update.model_dump(exclude_unset=True)
   
   if not update_data:
@@ -56,15 +67,18 @@ def update_current_user(user_update: UserUpdate, current_user: dict = Depends(ge
 
   response = supabase.table("users").update(update_data).eq("id", current_user["id"]).execute()
   
-  if response.error:
+  if hasattr(response, 'error') and response.error:
     raise HTTPException(status_code=500, detail="Error updating user")
+
+  if not response.data or len(response.data) == 0:
+    raise HTTPException(status_code=500, detail="No data returned after update")
 
   return {"message": "User updated successfully", "data": response.data[0]}
 
-def delete_current_user(current_user: dict = Depends(get_current_user)):
+async def delete_current_user(current_user: dict = Depends(get_current_user)):
   response = supabase.table("users").delete().eq("id", current_user["id"]).execute()
 
-  if response.error:
+  if hasattr(response, 'error') and response.error:
     raise HTTPException(status_code=500, detail="Error deleting user")
 
   return {"message": "User deleted successfully"}
