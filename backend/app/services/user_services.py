@@ -1,17 +1,21 @@
 from fastapi import Depends, HTTPException
-from app.models.user_model import UserCreate, UserOut, UserUpdate
+from app.models.user_model import UserCreate, UserLoginOut, UserOut, UserUpdate
 from app.database.supabase_client import supabase as supabase_Configured
 from uuid import UUID
 from typing import Optional
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from app.config import settings
+from app.utils.security import hash_password
 
 supabase = supabase_Configured
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 async def create_user(user_data: UserCreate) -> UserOut:
-  response = supabase.table("users").insert(user_data.model_dump()).execute()
+  user_dict = user_data.model_dump()
+  user_dict['hash_password'] = hash_password(user_data.hash_password)
+  
+  response = supabase.table("users").insert(user_dict).execute()
   
   if hasattr(response, 'error') and response.error:
     raise Exception(f"Error creating user: {response.error}")
@@ -25,7 +29,7 @@ async def create_user(user_data: UserCreate) -> UserOut:
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserOut:
   try:
     payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-    user_id: str = payload.get("sub")
+    user_id: str = UUID(payload.get("sub"))
     if user_id is None:
       raise HTTPException(status_code=401, detail="Invalid credentials")
   except JWTError:
@@ -35,6 +39,18 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserOut:
   if user is None:
     raise HTTPException(status_code=404, detail="User not found")
   return user
+
+async def get_user_by_email_verify(email: str) -> Optional[UserLoginOut]:
+  response = supabase.table("users").select("*").eq("email", email).execute()
+  
+  if hasattr(response, 'error') and response.error:
+    return None
+  
+  if not response.data or len(response.data) == 0:
+    return None
+  
+  user = response.data[0]
+  return UserLoginOut(**user)
 
 async def get_user_by_email(email: str) -> Optional[UserOut]:
   response = supabase.table("users").select("*").eq("email", email).execute()
