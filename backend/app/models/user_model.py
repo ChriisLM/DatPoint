@@ -28,3 +28,13 @@ class UserOut(UserBase):
 
   class Config:
     from_attributes = True
+    
+class UserLoginOut(UserBase):
+  id: UUID
+  created_at: datetime
+  updated_at: datetime
+  is_active: bool
+  hash_password: str
+
+  class Config:
+    from_attributes = True
