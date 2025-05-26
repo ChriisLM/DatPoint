@@ -81,7 +81,7 @@ async def update_current_user(user_update: UserUpdate, current_user: dict = Depe
   if not update_data:
     raise HTTPException(status_code=400, detail="No data provided for update.")
 
-  response = supabase.table("users").update(update_data).eq("id", current_user["id"]).execute()
+  response = supabase.table("users").update(update_data).eq("id", current_user.id).execute()
   
   if hasattr(response, 'error') and response.error:
     raise HTTPException(status_code=500, detail="Error updating user")
@@ -89,10 +89,10 @@ async def update_current_user(user_update: UserUpdate, current_user: dict = Depe
   if not response.data or len(response.data) == 0:
     raise HTTPException(status_code=500, detail="No data returned after update")
 
-  return {"message": "User updated successfully", "data": response.data[0]}
+  return response.data[0]
 
 async def delete_current_user(current_user: dict = Depends(get_current_user)):
-  response = supabase.table("users").delete().eq("id", current_user["id"]).execute()
+  response = supabase.table("users").delete().eq("id", current_user.id).execute()
 
   if hasattr(response, 'error') and response.error:
     raise HTTPException(status_code=500, detail="Error deleting user")
