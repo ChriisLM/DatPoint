@@ -10,8 +10,8 @@ async def get_me(current_user: UserBase = Depends(get_current_user)):
 
 @router.patch("/me", response_model=UserOut)
 async def update_me(data: UserUpdate, current_user: UserOut = Depends(get_current_user)):
-    return update_current_user(current_user, data)
+    return await update_current_user( data, current_user)
 
 @router.delete("/me")
 async def delete_me(current_user: UserOut = Depends(get_current_user)):
-    return delete_current_user(current_user)
+    return await delete_current_user(current_user)
