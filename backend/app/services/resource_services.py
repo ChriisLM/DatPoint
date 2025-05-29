@@ -20,7 +20,7 @@ async def create_resource(resource_data: ResourceCreate) -> ResourceOut:
     return ResourceOut(**resource)
 
 async def get_resource_by_id(resource_id: UUID) -> Optional[ResourceOut]:
-    response = supabase.table("resource").select("*").eq("id", str(resource_id)).single().execute()
+    response = supabase.table("resources").select("*").eq("id", str(resource_id)).single().execute()
     
     if hasattr(response, 'error') and response.error:
         return None
@@ -30,8 +30,8 @@ async def get_resource_by_id(resource_id: UUID) -> Optional[ResourceOut]:
     
     return ResourceOut(**response.data)
 
-async def list_resources_by_user(user_id: UUID) -> List[ResourceOut]:
-    response = supabase.table("resource").select("*").eq("created_by", str(user_id)).execute()
+async def list_resources_by_user(current_user: UUID) -> List[ResourceOut]:
+    response = supabase.table("resources").select("*").eq("created_by", str(current_user.id)).execute()
     
     if hasattr(response, 'error') and response.error:
         raise Exception("Error fetching resources")
@@ -43,7 +43,7 @@ async def list_resources_by_user(user_id: UUID) -> List[ResourceOut]:
 
 async def list_resources_by_format(format: str) -> List[ResourceOut]:
     normalized_format = format.lower()
-    response = supabase.table("resource").select("*").ilike("format", normalized_format).execute()
+    response = supabase.table("resources").select("*").ilike("format", normalized_format).execute()
     
     if hasattr(response, 'error') and response.error:
         raise Exception("Error fetching resources")
@@ -54,11 +54,11 @@ async def list_resources_by_format(format: str) -> List[ResourceOut]:
     return [ResourceOut(**item) for item in response.data]
 
 async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user_id: UUID) -> ResourceOut | None:
-    existing = supabase.table("resource").select("*").eq("id", resource_id).eq("user_id", user_id).execute()
+    existing = supabase.table("resources").select("*").eq("id", resource_id).eq("user_id", user_id).execute()
     if not existing.data:
         return None
     
-    response = supabase.table("resource").update(resource_data.model_dump(exclude_unset=True)).eq("id", resource_id).execute()
+    response = supabase.table("resources").update(resource_data.model_dump(exclude_unset=True)).eq("id", resource_id).execute()
     
     if hasattr(response, 'error') and response.error:
         raise HTTPException(status_code=500, detail="Error updating resource")
@@ -70,7 +70,7 @@ async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user
     return ResourceOut(**updated)
 
 async def delete_resource_by_id(resource_id: UUID):
-    response = supabase.table("resource").delete().eq("id", resource_id).execute()
+    response = supabase.table("resources").delete().eq("id", resource_id).execute()
     
     if hasattr(response, 'error') and response.error:
         raise HTTPException(status_code=500, detail="Error deleting resource")
