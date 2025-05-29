@@ -54,7 +54,7 @@ async def list_resources_by_format(format: str) -> List[ResourceOut]:
     return [ResourceOut(**item) for item in response.data]
 
 async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user_id: UUID) -> ResourceOut | None:
-    existing = supabase.table("resources").select("*").eq("id", resource_id).eq("user_id", user_id).execute()
+    existing = supabase.table("resources").select("*").eq("id", resource_id).eq("created_by", user_id).execute()
     if not existing.data:
         return None
     
