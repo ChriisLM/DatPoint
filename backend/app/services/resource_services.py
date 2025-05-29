@@ -22,7 +22,10 @@ async def create_resource(resource_data: ResourceCreate) -> ResourceOut:
 async def get_resource_by_id(resource_id: UUID) -> Optional[ResourceOut]:
     response = supabase.table("resource").select("*").eq("id", str(resource_id)).single().execute()
     
-    if response.error:
+    if hasattr(response, 'error') and response.error:
+        return None
+    
+    if not response.data:
         return None
     
     return ResourceOut(**response.data)
@@ -30,8 +33,11 @@ async def get_resource_by_id(resource_id: UUID) -> Optional[ResourceOut]:
 async def list_resources_by_user(user_id: UUID) -> List[ResourceOut]:
     response = supabase.table("resource").select("*").eq("created_by", str(user_id)).execute()
     
-    if response.error:
+    if hasattr(response, 'error') and response.error:
         raise Exception("Error fetching resources")
+    
+    if not response.data or len(response.data) == 0:
+        return None
     
     return [ResourceOut(**item) for item in response.data]
 
@@ -39,8 +45,11 @@ async def list_resources_by_format(format: str) -> List[ResourceOut]:
     normalized_format = format.lower()
     response = supabase.table("resource").select("*").ilike("format", normalized_format).execute()
     
-    if response.error:
+    if hasattr(response, 'error') and response.error:
         raise Exception("Error fetching resources")
+    
+    if not response.data or len(response.data) == 0:
+        return None
     
     return [ResourceOut(**item) for item in response.data]
 
@@ -51,8 +60,11 @@ async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user
     
     response = supabase.table("resource").update(resource_data.model_dump(exclude_unset=True)).eq("id", resource_id).execute()
     
-    if response.error:
-        raise Exception("Error updating resource")
+    if hasattr(response, 'error') and response.error:
+        raise HTTPException(status_code=500, detail="Error updating resource")
+
+    if not response.data or len(response.data) == 0:
+        raise HTTPException(status_code=500, detail="No data returned after update")
     
     updated = response.data[0]
     return ResourceOut(**updated)
@@ -60,7 +72,7 @@ async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user
 async def delete_resource_by_id(resource_id: UUID):
     response = supabase.table("resource").delete().eq("id", resource_id).execute()
     
-    if response.error:
+    if hasattr(response, 'error') and response.error:
         raise HTTPException(status_code=500, detail="Error deleting resource")
     
     return {"message": "Resource deleted successfully"}
