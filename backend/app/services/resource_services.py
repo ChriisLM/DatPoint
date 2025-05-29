@@ -20,13 +20,13 @@ async def create_resource(resource_data: ResourceCreate) -> ResourceOut:
     return ResourceOut(**resource)
 
 async def get_resource_by_id(resource_id: UUID) -> Optional[ResourceOut]:
-    response = supabase.table("resources").select("*").eq("id", str(resource_id)).single().execute()
+    response = supabase.table("resources").select("*").eq("id", str(resource_id)).execute()
     
     if hasattr(response, 'error') and response.error:
         return None
     
-    if not response.data:
-        return None
+    if not response.data or len(response.data) == 0:
+        raise HTTPException(status_code=404, detail="Resource not found")
     
     return ResourceOut(**response.data)
 
@@ -37,7 +37,7 @@ async def list_resources_by_user(current_user: UUID) -> List[ResourceOut]:
         raise Exception("Error fetching resources")
     
     if not response.data or len(response.data) == 0:
-        return None
+        raise Exception("No resource data returned after creation")
     
     return [ResourceOut(**item) for item in response.data]
 
@@ -74,5 +74,8 @@ async def delete_resource_by_id(resource_id: UUID):
     
     if hasattr(response, 'error') and response.error:
         raise HTTPException(status_code=500, detail="Error deleting resource")
+
+    if not response.data:
+        raise HTTPException(status_code=404, detail="Resource not found")
     
     return {"message": "Resource deleted successfully"}

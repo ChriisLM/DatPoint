@@ -39,5 +39,5 @@ async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user
     return updated_resource
 
 @router.delete("/{resource_id}")
-async def delete_resource(resourcce_id: UUID):
-    return delete_resource_by_id(resourcce_id)
+async def delete_resource(resource_id: UUID):
+    return await delete_resource_by_id(resource_id)
