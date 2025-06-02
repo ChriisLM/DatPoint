@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.models.resource_model import ResourceCreate, ResourceOut, ResourceUpdate
-from app.services.resource_services import create_resource, delete_resource_by_id, get_resource_by_id, list_resources_by_format, list_resources_by_user, update_resource
+from app.services.resource_services import create_resource, delete_resource_by_id, get_resource_by_id, list_resources_by_date_range, list_resources_by_format, list_resources_by_user, update_resource
 from uuid import UUID
 
 from app.models.user_model import UserOut
@@ -23,6 +23,10 @@ async def get_resources_by_me(current_user: UserOut = Depends(get_current_user))
 async def get_resources_by_format(format: str):
     response = await list_resources_by_format(format)
     return response
+
+@router.get("/date/{start}/{end}", response_model=List[ResourceOut])
+async def get_resources_by_date(start: str, end: str, current_user=Depends(get_current_user)):
+    return await list_resources_by_date_range(start, end, current_user)
 
 @router.get("/{resource_id}", response_model=ResourceOut)
 async def get_resource(resource_id: UUID):

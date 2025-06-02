@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from fastapi import HTTPException
 from app.models.resource_model import ResourceCreate, ResourceOut, ResourceUpdate
 from app.database.supabase_client import supabase
@@ -79,3 +80,28 @@ async def delete_resource_by_id(resource_id: UUID):
         raise HTTPException(status_code=404, detail="Resource not found")
     
     return {"message": "Resource deleted successfully"}
+
+async def list_resources_by_date_range(start: str, end: str, current_user: UUID) -> List[ResourceOut]:
+    try:
+        start_date = datetime.combine(datetime.strptime(start, "%Y-%m-%d").date(), time.min)
+        end_date = datetime.combine(datetime.strptime(end, "%Y-%m-%d").date(), time.max)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid format of data. Use YYYY-MM-DD o YYYY-MM-DDTHH:MM:SS")
+
+    start_str = start_date.isoformat() + "Z"
+    end_str = end_date.isoformat() + "Z"
+    response = (
+        supabase.table("resources")
+        .select("*")
+        .eq("created_by", str(current_user.id))
+        .gte("created_at", start_str)
+        .lte("created_at", end_str)
+        .execute()
+    )
+    if hasattr(response, 'error') and response.error:
+        raise HTTPException(status_code=500, detail=f"Error filtering resources by date: {response.error}")
+
+    if not response.data:
+        return []
+
+    return [ResourceOut(**item) for item in response.data]
