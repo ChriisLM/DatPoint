@@ -5,6 +5,8 @@ from app.database.supabase_client import supabase
 from uuid import UUID
 from typing import Optional, List
 
+from app.services.embedding_services import save_embedding_for_resource
+
 async def create_resource(resource_data: ResourceCreate) -> ResourceOut:
     resource_dict = resource_data.model_dump()
     
@@ -18,6 +20,9 @@ async def create_resource(resource_data: ResourceCreate) -> ResourceOut:
         raise Exception("No resource data returned after creation")
     
     resource = response.data[0]
+    
+    await save_embedding_for_resource(resource)
+    
     return ResourceOut(**resource)
 
 async def get_resource_by_id(resource_id: UUID) -> Optional[ResourceOut]:
@@ -59,7 +64,8 @@ async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user
     if not existing.data:
         return None
     
-    response = supabase.table("resources").update(resource_data.model_dump(exclude_unset=True)).eq("id", resource_id).execute()
+    update_dict = resource_data.model_dump(exclude_unset=True)
+    response = supabase.table("resources").update(update_dict).eq("id", resource_id).execute()
     
     if hasattr(response, 'error') and response.error:
         raise HTTPException(status_code=500, detail="Error updating resource")
@@ -68,6 +74,11 @@ async def update_resource(resource_id: UUID, resource_data: ResourceUpdate, user
         raise HTTPException(status_code=500, detail="No data returned after update")
     
     updated = response.data[0]
+    
+    fields_to_check = ["title", "description", "tags"]
+    if any(field in update_dict for field in fields_to_check):
+        await save_embedding_for_resource(updated)
+        
     return ResourceOut(**updated)
 
 async def delete_resource_by_id(resource_id: UUID):
