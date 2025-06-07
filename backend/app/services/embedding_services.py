@@ -1,3 +1,4 @@
+from typing import Dict, List
 from sentence_transformers import SentenceTransformer
 from app.database.supabase_client import supabase
 
@@ -38,3 +39,18 @@ async def save_embedding_for_resource(resource: dict):
         raise Exception(f"Error saving/updating embedding: {response.error}")
 
     return response.data[0]
+
+async def search_similar_resources(query: str, top_k: int = 5) -> List[Dict]:
+    embedding = generate_embedding(query)
+
+    response = supabase.rpc("match_resource_embeddings", {
+        "query_embedding": embedding,
+        "match_count": top_k
+    }).execute()
+
+    if hasattr(response, 'error') and response.error:
+        raise Exception(f"Error in similarity search: {response.error}")
+
+    matches = response.data or []
+
+    return [{"resource_id": match["resource_id"], "similarity": match["similarity"]} for match in matches]
