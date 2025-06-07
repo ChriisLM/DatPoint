@@ -36,6 +36,17 @@ async def get_resource_by_id(resource_id: UUID) -> Optional[ResourceOut]:
     
     return ResourceOut(**response.data)
 
+async def list_resources_by_ids(resource_ids: List[UUID]) -> List[ResourceOut]:
+    if not resource_ids:
+        return []
+
+    response = supabase.table("resources").select("*").in_("id", [str(rid) for rid in resource_ids]).execute()
+
+    if hasattr(response, 'error') and response.error:
+        raise Exception(f"Error fetching resources: {response.error}")
+
+    return [ResourceOut(**res) for res in response.data]
+
 async def list_resources_by_user(current_user: UUID) -> List[ResourceOut]:
     response = supabase.table("resources").select("*").eq("created_by", str(current_user.id)).execute()
     
