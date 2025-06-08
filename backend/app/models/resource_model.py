@@ -37,3 +37,7 @@ class ResourceOut(ResourceBase):
 
   class Config:
     from_attributes = True
+
+class ResourceWithSimilarity(BaseModel):
+  resource: ResourceOut
+  similarity: float
