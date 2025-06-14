@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from app.routes import auth_routes, resource_routes, user_routes
-from app.routes import search_routes
+
 from app.config import settings
+from app.routes import auth_routes, resource_routes, search_routes, user_routes
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
 
