@@ -1,37 +1,23 @@
-<nav class="flex flex-col gap-6 flex-grow overflow-y-auto">
+<nav class="flex flex-col gap-6">
   <!-- Pages -->
   <div>
     <h4 class="text-xs font-semibold text-light-muted mb-2 px-4 tracking-wide">
       Navegation
     </h4>
     <ul class="flex flex-col gap-2">
+      @for (item of navigationItems; track item.route) {
       <li>
         <a
-          href="#"
-          class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
+          [routerLink]="item.route"
+          routerLinkActive="bg-dark-tertiary"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center gap-2 px-4 py-1 hover:bg-dark-secondary"
         >
-          <lucide-icon name="Home" class="w-4 h-4 text-light-muted" />
-          Home
+          <lucide-icon [name]="item.icon" class="w-4 h-4 text-light-muted" />
+          {{ item.label }}
         </a>
       </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
-        >
-          <lucide-icon name="Clock" class="w-4 h-4 text-light-muted" />
-          Recent
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
-        >
-          <lucide-icon name="Star" class="w-4 h-4 text-light-muted" />
-          Favorite
-        </a>
-      </li>
+      }
     </ul>
   </div>
 
@@ -41,42 +27,18 @@
       Categories
     </h4>
     <ul class="flex flex-col gap-2">
+      @for (item of categoryItems; track item.label) {
       <li>
         <a
-          href="#"
+          [routerLink]="item.route"
+          routerLinkActive="bg-dark-tertiary"
           class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
         >
-          <lucide-icon name="Link" class="w-4 h-4 text-light-muted" />
-          Link
+          <lucide-icon [name]="item.icon" class="w-4 h-4 text-light-muted" />
+          {{ item.label }}
         </a>
       </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
-        >
-          <lucide-icon name="FileText" class="w-4 h-4 text-light-muted" />
-          File
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
-        >
-          <lucide-icon name="Image" class="w-4 h-4 text-light-muted" />
-          Image
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
-        >
-          <lucide-icon name="Video" class="w-4 h-4 text-light-muted" />
-          Video
-        </a>
-      </li>
+      }
     </ul>
   </div>
 
@@ -94,24 +56,17 @@
       </button>
     </div>
     <ul class="flex flex-col gap-2">
+      @for (item of workspaces(); track item.name) {
       <li>
         <a
           href="#"
           class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
         >
           <lucide-icon name="FolderOpen" class="w-4 h-4 text-light-primary" />
-          Workspace 1
+          {{ item.name }}
         </a>
       </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center gap-2 px-4 py-1 rounded hover:bg-dark-secondary"
-        >
-          <lucide-icon name="FolderOpen" class="w-4 h-4 text-light-primary" />
-          Workspace 2
-        </a>
-      </li>
+      }
     </ul>
   </div>
 </nav>
