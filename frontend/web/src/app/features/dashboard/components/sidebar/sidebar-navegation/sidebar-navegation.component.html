@@ -56,7 +56,8 @@
       </button>
     </div>
     <ul class="flex flex-col gap-2">
-      @for (item of workspaces(); track item.name) {
+      @if (workSpaces().length > 0) { @for (item of workSpaces(); track
+      item.name) {
       <li>
         <a
           href="#"
@@ -65,6 +66,12 @@
           <lucide-icon name="FolderOpen" class="w-4 h-4 text-light-primary" />
           {{ item.name }}
         </a>
+      </li>
+      } } @else {
+      <li
+        class="flex items-center gap-2 px-4 py-1 rounded text-light-muted/70"
+      >
+        Create a new space
       </li>
       }
     </ul>
