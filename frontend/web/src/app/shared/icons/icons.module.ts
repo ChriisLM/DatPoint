@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { LucideAngularModule, Home, Clock, Star, FileText, Image as ImageIcon, Video, Link as LinkIcon, Plus, DatabaseZap, FolderOpen, Settings, LoaderCircle, Search, Grid2X2, List } from 'lucide-angular';
+import { LucideAngularModule, Home, Clock, Star, FileText, Image as ImageIcon, Video, Link as LinkIcon, Plus, DatabaseZap, FolderOpen, Settings, LoaderCircle, Search, Grid2X2, List, GalleryVerticalEnd, Menu, ShieldCheck, Zap, RefreshCw, RefreshCcw } from 'lucide-angular';
 
 @NgModule({
   imports: [
@@ -18,7 +18,12 @@ import { LucideAngularModule, Home, Clock, Star, FileText, Image as ImageIcon, V
       LoaderCircle,
       Search,
       Grid2X2,
-      List
+      List,
+      GalleryVerticalEnd,
+      Menu,
+      ShieldCheck,
+      Zap,
+      RefreshCcw
     })
   ],
   exports: [LucideAngularModule]
