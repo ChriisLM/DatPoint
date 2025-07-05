@@ -1,0 +1,51 @@
+<header
+  class="fixed top-0 w-full bg-dark-primary backdrop-blur-md z-50"
+>
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <div
+          class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center"
+        >
+          <lucide-icon name="DatabaseZap" class="w-5 h-5 text-light-secondary" />
+        </div>
+        <span class="text-xl font-bold text-light-primary">Datpoint</span>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a
+          (click)="scrollToSection('features')"
+          class="text-light-secondary hover:text-light-muted cursor-pointer transition-colors"
+          >Features</a
+        >
+        <a
+          (click)="scrollToSection('testimonials')"
+          class="text-light-secondary hover:text-light-muted cursor-pointer transition-colors"
+          >Testimonials</a
+        >
+        <a
+          (click)="scrollToSection('faq')"
+          class="text-light-secondary hover:text-light-muted cursor-pointer transition-colors"
+          >FAQ</a
+        >
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex items-center space-x-4">
+        <a
+          routerLink="/login"
+          class="text-light-secondary hover:text-light-muted transition-colors cursor-pointer"
+          >Sign In</a
+        >
+        <a
+          routerLink="/register"
+          class="bg-blue-600 text-light-secondary px-4 py-2 rounded-lg hover:shadow-lg transition-all hover:bg-blue-800 cursor-pointer"
+        >
+          Start Now
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
