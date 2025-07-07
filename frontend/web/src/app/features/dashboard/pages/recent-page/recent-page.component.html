@@ -1,0 +1,51 @@
+<main class="">
+  <dtp-preview-section [sectionInfo]="recentInfo" />
+  <div class="container mx-auto p-6">
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-light-primary mb-2">Mis Recursos</h1>
+      <p class="text-light-muted">
+        Seleccionados: {{ selectedResources.length }} de {{ resources.length }}
+      </p>
+    </div>
+
+    <div
+      class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+    >
+      @for (resource of resources; track resource.id) {
+      <dtp-card-resource
+        [resource]="resource"
+        [selectedResources]="selectedResources"
+        (selectionChange)="onSelectionChange($event)"
+      />
+      }
+    </div>
+
+    <!-- Acciones en lote -->
+    <!-- @if (selectedResources.length > 0) {
+    <div
+      class="fixed bottom-6 right-6 bg-white rounded-lg shadow-lg border border-gray-200 p-4"
+    >
+      <div class="flex items-center gap-3">
+        <span class="text-sm font-medium text-gray-700">
+          {{ selectedResources.length }} seleccionados
+        </span>
+        <button
+          class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+        >
+          Descargar
+        </button>
+        <button
+          class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600"
+        >
+          Compartir
+        </button>
+        <button
+          class="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+    }-->
+  </div>
+</main>
