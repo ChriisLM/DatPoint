@@ -1,32 +1,13 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconsModule } from '../../../../shared/icons/icons.module';
-
-interface Resource {
-  id: string;
-  created_by: string;
-  created_at: string;
-  updated_at?: string; //no en uso
-  title: string;
-  description?: string;
-  type: string;
-  format?: string; //no en uso
-  file_path?: string;
-  link_url?: string;
-  metadata?: { [key: string]: any };
-  tags: string[];
-  is_public?: boolean; //no en uso
-  priority?: 'low' | 'normal' | 'high';
-  // nuevos aqui
-  thumbnail?: string;
-  workspace: string;
-  size: string | 'N/A';
-  favorite: boolean;
-}
+import { ActionsMenuComponent } from '../../../../shared/components/actions-menu/actions-menu.component';
+import { Resource } from '../../interfaces/dashboard.interface';
+import { TimeAgoPipe } from '../../../../shared/pipes/timeAgo.pipe';
 
 @Component({
   selector: 'dtp-card-resource',
-  imports: [NgClass, IconsModule],
+  imports: [NgClass, IconsModule, ActionsMenuComponent, TimeAgoPipe],
   templateUrl: './card-resource.component.html',
   styles: [
     `
@@ -61,7 +42,24 @@ export class CardResourceComponent {
   @Output() selectionChange = new EventEmitter<string>();
 
   showFallback = false;
+  menuOpen = false;
 
+  // Handle menu options
+  handleAction(action: string) {
+    if (action === 'close') {
+      this.menuOpen = false;
+      return;
+    }
+    console.log('Resource ID:', this.resource.id);
+    console.log('Acción:', action);
+    this.menuOpen = false;
+  }
+
+  toggleSelection(): void {
+    this.selectionChange.emit(this.resource.id);
+  }
+
+  //Gets Conditional Styles
   get isSelected(): boolean {
     return this.selectedResources.includes(this.resource.id);
   }
@@ -79,10 +77,6 @@ export class CardResourceComponent {
       'h-full w-full object-cover': true,
       hidden: this.showFallback,
     };
-  }
-
-  toggleSelection(): void {
-    this.selectionChange.emit(this.resource.id);
   }
 
   getInitials(name: string): string {
@@ -110,19 +104,6 @@ export class CardResourceComponent {
       project: 'Proyecto',
     };
     return labels[workspace] || workspace;
-  }
-
-  getTimeAgo(dateString: string): string {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) return 'Hace 1 día';
-    if (diffDays < 7) return `Hace ${diffDays} días`;
-    if (diffDays < 30) return `Hace ${Math.ceil(diffDays / 7)} semanas`;
-    if (diffDays < 365) return `Hace ${Math.ceil(diffDays / 30)} meses`;
-    return `Hace ${Math.ceil(diffDays / 365)} años`;
   }
 
   getResourceIcon(type: string): { name: string; class: string } {
