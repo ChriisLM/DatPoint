@@ -1,0 +1,27 @@
+@if (selectedResources.length > 0) {
+  <div>
+    <div class="flex items-center gap-3">
+      <span class="text-sm font-medium text-light-primary">
+        {{ selectedResources.length }} selected
+      </span>
+      <button
+        class="px-3 py-1 bg-dark-tertiary text-light-tertiary rounded text-sm cursor-pointer hover:bg-dark-tertiary/80"
+        (click)="moveTo()"
+      >
+        Move
+      </button>
+      <button
+        class="px-3 py-1 bg-dark-tertiary text-light-tertiary rounded text-sm cursor-pointer hover:bg-dark-tertiary/80"
+        (click)="share()"
+      >
+        Share
+      </button>
+      <button
+        class="px-3 py-1 bg-transparent text-red-video border border-dark-muted rounded not-only-of-type:text-sm cursor-pointer hover:bg-dark-tertiary/80"
+        (click)="deleteIt()"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+}
