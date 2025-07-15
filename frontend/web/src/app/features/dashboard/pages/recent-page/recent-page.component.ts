@@ -1,34 +1,12 @@
 import { Component } from '@angular/core';
 import { PreviewSectionComponent } from '../../components/preview-section/preview-section.component';
 import { CardResourceComponent } from "../../components/card-resource/card-resource.component";
-
-interface Resource {
-  id: string; 
-  created_by: string;
-  created_at: string; 
-  updated_at?: string; //no en uso
-  title: string;
-  description?: string;
-  type: string;
-  format?: string; //no en uso
-  file_path?: string;
-  link_url?: string;
-  metadata?: { [key: string]: any };
-  tags: string[];
-  is_public?: boolean; //no en uso
-  priority?: 'low' | 'normal' | 'high';
-  // nuevos aqui
-  thumbnail?: string;
-  workspace: string;
-  size: string | "N/A";
-  favorite: boolean;
-}
-
-
+import { BatchActionsComponent } from "../../components/batch-actions/batch-actions.component";
+import { Resource } from '../../interfaces/dashboard.interface';
 
 @Component({
   selector: 'dtp-recent-page',
-  imports: [PreviewSectionComponent, CardResourceComponent],
+  imports: [PreviewSectionComponent, CardResourceComponent, BatchActionsComponent],
   templateUrl: './recent-page.component.html',
 })
 export default class RecentPageComponent {
