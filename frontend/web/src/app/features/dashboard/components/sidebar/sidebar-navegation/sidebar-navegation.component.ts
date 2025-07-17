@@ -19,10 +19,10 @@ export class SidebarNavegationComponent {
   ];
 
   categoryItems = [
-    { label: 'Link', icon: 'Link', route: '/dashboard/links' },
-    { label: 'File', icon: 'FileText', route: '/dashboard/files' },
-    { label: 'Image', icon: 'Image', route: '/dashboard/pictures' },
-    { label: 'Video', icon: 'Video', route: '/dashboard/videos' },
+    { label: 'Link', icon: 'Link', route: '/dashboard/type/links' },
+    { label: 'File', icon: 'FileText', route: '/dashboard/type/files' },
+    { label: 'Image', icon: 'Image', route: '/dashboard/type/pictures' },
+    { label: 'Video', icon: 'Video', route: '/dashboard/type/videos' },
   ];
 
   workSpaces = signal<workSpace[]>([
