@@ -1,14 +1,35 @@
-<div class="h-full flex items-center justify-center">
+<section class="relative h-full flex items-center justify-center">
+  <div
+    class="absolute inset-0 z-0 pointer-events-none"
+    style="
+      background-image: repeating-linear-gradient(
+          45deg,
+          rgba(255, 140, 0, 0.25) 0,
+          rgba(255, 140, 0, 0.25) 1px,
+          transparent 1px,
+          transparent 22px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255, 69, 0, 0.2) 0,
+          rgba(255, 69, 0, 0.2) 1px,
+          transparent 1px,
+          transparent 22px
+        );
+      background-size: 44px 44px;
+    "
+  ></div>
   <!-- Main Content -->
   <main class="flex flex-col items-center">
     <!-- Hero Section -->
     <div class="text-center">
-      <p class="text-xl text-light-tertiary max-w-2xl mx-auto mb-8">
-        Todos tus recursos digitales en un solo lugar
+      <p
+        class="text-xl font-semibold text-light-tertiary max-w-2xl mx-auto mb-8"
+      >
+        All your digital resources in one place
       </p>
     </div>
-
     <!-- Search Section -->
     <dtp-search-box />
   </main>
-</div>
+</section>
