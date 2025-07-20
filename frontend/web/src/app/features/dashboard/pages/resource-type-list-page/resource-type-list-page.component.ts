@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'dtp-resource-list-page',
   imports: [],
-  templateUrl: './resource-list-page.component.html',
+  templateUrl: './resource-type-list-page.component.html',
 })
 export default class ResourceListComponent { 
   type: string = '';
@@ -12,6 +12,7 @@ export default class ResourceListComponent {
 
   constructor(private route: ActivatedRoute) {}
 
+  //para luego
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.type = params.get('type') || 'files';

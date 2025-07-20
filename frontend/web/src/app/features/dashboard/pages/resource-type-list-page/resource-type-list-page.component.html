@@ -1,0 +1,29 @@
+<section>
+  <div class="min-h-screen w-full relative">
+    <div
+      class="absolute inset-0 z-0"
+      style="
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.2) 1.5px,
+          transparent 1.5px
+        );
+        background-size: 30px 30px;
+        background-position: 0 0;
+      "
+    ></div>
+    <h2 class="text-xl font-bold capitalize mb-4">{{ type }}</h2>
+    @if (resources.length === 0) {
+    <div>
+      <p>No hay {{ type }} disponibles.</p>
+    </div>
+    }
+    <ul class="space-y-2">
+      @for (resource of resources; track $index) {
+      <li class="p-4 bg-gray-100 rounded">
+        {{ resource.name || resource.title }}
+      </li>
+      }
+    </ul>
+  </div>
+</section>
