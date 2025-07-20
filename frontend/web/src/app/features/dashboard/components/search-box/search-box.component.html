@@ -5,7 +5,7 @@
       (keydown)="onKeyDown($event)"
       [value]="searchQuery()"
       (input)="searchQuery.set($any($event.target).value)"
-      placeholder="¿Qué estás buscando?"
+      placeholder="What are you looking for?"
       class="w-full text-light-secondary px-6 py-4 pr-16 text-lg border-2 border-dark-muted rounded-2xl focus:border-blue-300 focus:ring-4 focus:ring-light-muted/50 focus:outline-none resize-none transition-all duration-200 shadow-sm hover:shadow-md bg-dark-tertiary backdrop-blur-sm"
       rows="3"
       [disabled]="isSearching()"
@@ -27,7 +27,7 @@
   <!-- Suggestions -->
   @if (recentSearches().length > 0 && !isSearching()) {
   <div class="mt-4 text-center">
-    <span class="text-light-tertiary">Búsquedas recientes:</span>
+    <span class="text-light-tertiary">Recent searches:</span>
     <div class="text-light-secondary flex flex-wrap gap-2 justify-center py-4">
       @for (suggestion of recentSearches(); track suggestion) {
       <button
