@@ -22,13 +22,14 @@
         class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
       >
         <a
-          routerLink="/register"
+          routerLink="/dashboard"
           class="bg-blue-600 text-light-primary px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
         >
           Start Free Now
         </a>
+        <!-- (click)="scrollToSection('demo')" -->
         <button
-          (click)="scrollToSection('demo')"
+          routerLink="/dashboard"
           class="text-light-secondary px-8 py-4 rounded-xl text-lg font-semibold border-2 border-dark-muted hover:border-dark-tertiary transition-colors cursor-pointer"
         >
           View Demo

@@ -13,7 +13,7 @@ export const routes: Routes = [
       { path: 'recent', loadComponent: () => import('./features/dashboard/pages/recent-page/recent-page.component')},
       { path: 'favorite', loadComponent: () => import('./features/dashboard/pages/favorite-page/favorite-page.component')},
       { path: 'search', loadComponent: () => import('./features/dashboard/pages/result-search-page/result-search-page.component')},
-      { path: 'type/:type', loadComponent: () => import('./features/dashboard/pages/resource-list-page/resource-list-page.component')
+      { path: 'type/:type', loadComponent: () => import('./features/dashboard/pages/resource-type-list-page/resource-type-list-page.component')
       },
       { path: '**', redirectTo: ''}
     ]

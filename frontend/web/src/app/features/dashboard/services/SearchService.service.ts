@@ -1,9 +1,11 @@
 import { Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
+  constructor(private router:Router){}
   recentSearches = signal<string[]>([
   // 'datasets de prueba',
   //   'documentación API',
@@ -23,6 +25,7 @@ export class SearchService {
 
     this.isSearching.set(true);
     try {
+      this.router.navigate(['dashboard/search'], { queryParams: { q: query.trim() } });
       // ----- Falta agregar aqui la coneccion al backend -----
       //
       //
