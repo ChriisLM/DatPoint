@@ -1,0 +1,43 @@
+<div class="relative min-w-2xl mx-auto w-full max-w-xl">
+  <!-- Textarea -->
+  <div class="relative">
+    <textarea
+      (keydown)="onKeyDown($event)"
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+      placeholder="What are you looking for?"
+      class="w-full text-light-secondary px-6 py-4 pr-16 text-lg border-2 border-dark-muted rounded-2xl focus:border-blue-300 focus:ring-4 focus:ring-light-muted/50 focus:outline-none resize-none transition-all duration-200 shadow-sm hover:shadow-md bg-dark-tertiary backdrop-blur-sm"
+      rows="3"
+      [disabled]="isSearching()"
+    ></textarea>
+
+    <button
+      (click)="triggerSearch()"
+      class="absolute right-3 bottom-3 p-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+      [disabled]="!searchQuery().trim() || isSearching()"
+    >
+      @if (isSearching()) {
+      <lucide-icon name="LoaderCircle" class="w-5 h-5 animate-spin text-light-muted" />
+    } @else {
+      <lucide-icon name="Search" class="w-5 h-5 text-light-muted" />
+      }
+    </button>
+  </div>
+
+  <!-- Suggestions -->
+  @if (recentSearches().length > 0 && !isSearching()) {
+  <div class="mt-4 text-center">
+    <span class="text-light-tertiary">Recent searches:</span>
+    <div class="text-light-secondary flex flex-wrap gap-2 justify-center py-4">
+      @for (suggestion of recentSearches(); track suggestion) {
+      <button
+        (click)="selectSuggestion(suggestion)"
+        class="px-4 py-2 bg-dark-tertiary backdrop-blur-sm border border-dark-muted rounded-full text-sm hover:bg-dark-muted/80 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer"
+      >
+        {{ suggestion }}
+      </button>
+      }
+    </div>
+  </div>
+  }
+</div>

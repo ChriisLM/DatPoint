@@ -1,0 +1,44 @@
+<section>
+  <div class="min-h-screen w-full relative">
+    <div
+      class="absolute inset-0 z-0"
+      style="
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.2) 1.5px,
+          transparent 1.5px
+        );
+        background-size: 30px 30px;
+        background-position: 0 0;
+      "
+    ></div>
+    <dtp-preview-section [sectionInfo]="recentInfo" (viewChange)="onViewChange($event)" />
+    <div class="container mx-auto p-6">
+      <div class="flex justify-between mb-6">
+        <h1 class="text-2xl font-bold text-light-primary mb-2">My Resources</h1>
+        <dtp-batch-actions [selectedResources]="selectedResources" />
+      </div>
+      @if (selectedView == 'grid') {
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          @for (resource of resources; track resource.id) {
+          <dtp-card-resource
+            [resource]="resource"
+            [selectedResources]="selectedResources"
+            (selectionChange)="onSelectionChange($event)"
+          />
+          }
+        </div>
+      } @else if (selectedView == 'list') {
+        <div class="flex flex-col gap-4">
+          @for (resource of resources; track resource.id) {
+          <dtp-card-list-resource
+            [resource]="resource"
+            [selectedResources]="selectedResources"
+            (selectionChange)="onSelectionChange($event)"
+          />
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

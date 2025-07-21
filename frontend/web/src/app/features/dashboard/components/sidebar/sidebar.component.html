@@ -1,0 +1,22 @@
+<aside
+  class="bg-dark-primary text-light-tertiary h-screen w-[220px] flex flex-col py-4"
+>
+  <!-- Branding -->
+  <div class="flex items-center gap-3 mb-6 px-4">
+    <lucide-icon name="DatabaseZap" class="w-6 h-6 text-blue-500" />
+    <h1 class="text-xl font-bold text-light-primary">Datpoint</h1>
+  </div>
+
+  <!-- New Resource -->
+  <div class="px-4">
+    <dtp-add-button label="New Resource" />
+  </div>
+
+  <!-- Navigation -->
+  <div class="flex-1 overflow-y-auto">
+    <dtp-sidebar-navegation />
+  </div>
+
+  <!-- User and Settings -->
+  <dtp-sidebar-user />
+</aside>

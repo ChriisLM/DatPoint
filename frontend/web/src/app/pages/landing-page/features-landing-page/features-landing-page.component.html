@@ -1,0 +1,60 @@
+<section id="features" class="py-20 px-4 sm:px-6 lg:px-8 bg-dark-secondary">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-light-primary mb-4">
+        Features that make the difference
+      </h2>
+      <p class="text-xl text-light-muted max-w-3xl mx-auto">
+        Discover the advantages of choosing
+        <span class="text-blue-500 font-semibold">Datpoint</span> to organize
+        your digital world.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for (feature of features; track feature.title) {
+      <article
+        class="group p-6 bg-dark-tertiary border border-dark-muted rounded-2xl hover:border-light-muted hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+      >
+        <!-- Icon Wrapper -->
+        <div class="mb-6">
+          <div
+            class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+            [ngClass]="getColorClasses(feature.color)"
+          >
+            @switch (feature.icon) { @case ('search') {
+            <lucide-icon name="Search" class="w-6 h-6 text-light-primary" />
+            } @case ('workspace') {
+            <lucide-icon
+              name="GalleryVerticalEnd"
+              class="w-6 h-6 text-light-primary"
+            />
+            } @case ('files') {
+            <lucide-icon name="Menu" class="w-6 h-6 text-light-primary" />
+            } @case ('security') {
+            <lucide-icon
+              name="ShieldCheck"
+              class="w-6 h-6 text-light-primary"
+            />
+            } @case ('speed') {
+            <lucide-icon name="Zap" class="w-6 h-6 text-light-primary" />
+            } @case ('sync') {
+            <lucide-icon name="RefreshCcw" class="w-6 h-6 text-light-primary" />
+            } }
+          </div>
+        </div>
+
+        <!-- Title and Description -->
+        <h3
+          class="text-xl font-bold text-light-primary mb-3 group-hover:text-light-muted"
+        >
+          {{ feature.title }}
+        </h3>
+        <p class="text-light-muted leading-relaxed">
+          {{ feature.description }}
+        </p>
+      </article>
+      }
+    </div>
+  </div>
+</section>
