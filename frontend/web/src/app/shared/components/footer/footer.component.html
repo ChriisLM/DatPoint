@@ -1,0 +1,70 @@
+<footer class="bg-dark-primary text-light-primary py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <div class="col-span-1 md:col-span-2">
+        <div class="flex items-center space-x-2 mb-4">
+          <div
+            class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center"
+          >
+            <lucide-icon name="DatabaseZap" class="w-5 h-5 text-light-muted" />
+          </div>
+          <span class="text-2xl font-bold">Datpoint</span>
+        </div>
+        <p class="text-light-muted mb-6 max-w-md">
+          The ultimate platform to organize, search and access all your digital
+          resources with artificial intelligence.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-light-primary mb-4">Product</h3>
+        <ul class="space-y-2">
+          @for (link of ['Features', 'Integrations', 'API']; track link) {
+          <li>
+            <a
+              href="#"
+              class="text-light-muted hover:text-light-primary transition-colors"
+            >
+              {{ link }}
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-light-primary mb-4">Company</h3>
+        <ul class="space-y-2">
+          @for (link of ['About Us', 'Blog', 'Contact']; track link) {
+          <li>
+            <a
+              href="#"
+              class="text-light-muted hover:text-light-primary transition-colors"
+            >
+              {{ link }}
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-dark-muted pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-light-tertiary text-sm mb-4 md:mb-0">
+          © 2025 Datpoint. All rights reserved.
+        </p>
+        <div class="flex space-x-6 text-sm">
+          @for (link of ['Privacy Policy', 'Terms of Service']; track link) {
+          <a
+            href="#"
+            class="text-light-muted hover:text-light-primary transition-colors"
+          >
+            {{ link }}
+          </a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

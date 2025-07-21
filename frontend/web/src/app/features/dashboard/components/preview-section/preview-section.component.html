@@ -1,0 +1,99 @@
+<section class="w-full px-8 py-6 flex flex-col gap-6">
+  <!-- Header -->
+  <div
+    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+  >
+    <div class="flex items-center gap-4">
+      <span
+        class="w-11 h-11 flex items-center justify-center rounded-lg font-semibold text-lg"
+        [ngClass]="getPreviewBgClasses(sectionInfo.title)"
+      >
+        <lucide-icon
+          [name]="sectionInfo.icon"
+          [ngClass]="getPreviewColorClasses(sectionInfo.title)"
+        />
+      </span>
+      <div class="flex flex-col">
+        <h2 class="text-light-primary text-2xl font-bold">
+          {{ sectionInfo.title }}
+        </h2>
+        <p class="text-light-muted">{{ sectionInfo.label }}</p>
+      </div>
+    </div>
+
+    <!-- Toggle -->
+    <div class="flex rounded-md overflow-hidden border border-dark-muted z-10">
+      <button
+        class="w-8 h-8 flex items-center justify-center transition-colors cursor-pointer"
+        [ngClass]="
+          activeView === 'grid'
+            ? 'bg-blue-600 text-white hover:bg-blue-500'
+            : 'bg-light-muted text-dark-secondary hover:bg-light-tertiary'
+        "
+        aria-label="Vista en cuadrícula"
+        (click)="setView('grid')"
+      >
+        <lucide-icon name="Grid2X2" class="h-5 w-5" />
+      </button>
+
+      <button
+        class="w-8 h-8 flex items-center justify-center transition-colors cursor-pointer"
+        [ngClass]="
+          activeView === 'list'
+            ? 'bg-blue-600 text-white hover:bg-blue-500'
+            : 'bg-light-muted text-dark-secondary hover:bg-light-tertiary'
+        "
+        aria-label="Vista en lista"
+        (click)="setView('list')"
+      >
+        <lucide-icon name="List" class="h-5 w-5" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    @for (item of cardsInfo; track $index) {
+    <article
+      class="p-4 bg-dark-tertiary backdrop-blur-sm rounded-lg hover:shadow-md transition-shadow cursor-pointer"
+      [ngClass]="getCardClasses(item.color)"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-lg" [ngClass]="getIconBgClasses(item.color)">
+            <lucide-icon
+              [name]="item.icon"
+              class="h-5 w-5"
+              [ngClass]="getIconClasses(item.color)"
+            ></lucide-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-light-muted">{{ item.label }}</p>
+            <p
+              class="text-2xl font-bold"
+              [ngClass]="getCountClasses(item.color)"
+            >
+              {{ item.count }}
+            </p>
+          </div>
+        </div>
+        <div class="text-right">
+          @if (item.type === "recent") {
+          <p class="text-xs font-medium text-blue-500">
+            Últimos <br />
+            accesos
+          </p>
+          } @else if (item.type === "favorite") {
+          <p class="text-xs font-medium text-yellow-500">★ Marcados</p>
+          } @else {
+          <p
+            class="text-xs font-medium text-light-muted"
+            [innerHTML]="getFileTypes(item.color)"
+          ></p>
+          }
+        </div>
+      </div>
+    </article>
+    }
+  </div>
+</section>

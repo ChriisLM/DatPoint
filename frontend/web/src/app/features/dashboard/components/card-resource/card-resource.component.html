@@ -1,0 +1,205 @@
+<article
+  class="group relative overflow-hidden rounded-xl bg-dark-primary shadow-sm border border-dark-secondary hover:shadow-2xl hover:border-dark-tertiary transition-all duration-500 hover:-translate-y-1"
+  [id]="resource.id"
+>
+  <!-- Overlay -->
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
+  ></div>
+
+  <div class="relative">
+    <!-- Checkbox mejorado -->
+    <div
+      class="absolute left-4 top-4 z-20 opacity-0 scale-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100"
+    >
+      <button
+        [ngClass]="checkboxClasses"
+        (click)="toggleSelection()"
+        class="w-6 h-6 rounded-lg border-2 border-dark-muted/80 bg-dark-muted/40 backdrop-blur-md flex items-center justify-center hover:bg-dark-muted/90 transition-all duration-200 hover:scale-110"
+      >
+        <span class="sr-only">Checkbox</span>
+        @if (isSelected) {
+        <lucide-icon
+          name="Check"
+          class="h-3.5 w-3.5 text-light-primary drop-shadow-sm"
+        />
+        }
+      </button>
+    </div>
+
+    <!-- Estrella de favorito -->
+    @if (resource.favorite) {
+    <div class="absolute right-4 top-4 z-20">
+      <div
+        class="rounded-full bg-dark-secondary/90 backdrop-blur-sm p-1.5 shadow-lg"
+      >
+        <lucide-icon
+          name="Star"
+          class="h-4 w-4 fill-yellow-400 text-yellow-400 drop-shadow-sm"
+        />
+      </div>
+    </div>
+    }
+
+    <div
+      class="relative aspect-video cursor-pointer overflow-hidden bg-gradient-to-br from-dark-secondary via-dark-tertiary to-dark-secondary rounded-t-xl"
+    >
+      <!-- Fondo con patrón sutil -->
+      <div
+        class="relative aspect-[4/3] cursor-pointer overflow-hidden bg-gradient-to-br from-muted/50 to-muted"
+      ></div>
+
+      <div class="absolute inset-0 flex items-center justify-center">
+        <lucide-icon
+          [name]="getResourceIcon(resource.type).name"
+          [class]="getResourceIcon(resource.type).class"
+        />
+      </div>
+
+      <!-- Imagen principal -->
+      <img
+        [src]="resource.thumbnail || '/placeholder.svg'"
+        [alt]="resource.title"
+        [ngClass]="imageClasses"
+        (error)="showFallback = true"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+
+      <!-- Overlay con gradiente -->
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"
+      ></div>
+
+      <div
+        class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="p-5 space-y-4">
+    <!-- Título y menú -->
+    <div class="flex items-center justify-between gap-2 mb-2">
+      <h3
+        class="font-semibold text-light-primary text-sm line-clamp-2 leading-tight group-hover:text-blue-400 transition-colors duration-500"
+      >
+        {{ resource.title }}
+      </h3>
+      <div
+        class="relative flex-shrink-0 z-30"
+        (click)="$event.stopPropagation()"
+      >
+        <dtp-actions-menu
+          [isOpen]="menuOpen"
+          (actionSelected)="handleAction($event)"
+        />
+        <button
+          class="p-1 rounded-lg hover:bg-gray-800 transition-colors duration-200 cursor-pointer z-30"
+          (click)="menuOpen = !menuOpen"
+        >
+          <svg
+            class="h-5 w-5 text-light-muted"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Descripción -->
+    <p class="text-xs text-light-muted line-clamp-2 leading-relaxed">
+      {{ resource.description }}
+    </p>
+
+    <!-- Información del creador -->
+    <!-- <div class="flex items-center gap-2.5">
+      <div
+        class="h-7 w-7 rounded-full bg-gradient-to-br from-blue-900/40 to-purple-900/40 flex items-center justify-center overflow-hidden ring-2 ring-dark-secondary shadow-sm"
+      >
+        <img
+          src="/placeholder.svg"
+          [alt]="resource.created_by"
+          class="h-full w-full object-cover"
+          (error)="showFallback = true"
+          [ngClass]="imageClasses"
+        />
+        @if (showFallback) {
+        <span class="text-xs font-semibold text-light-primary">
+          {{ getInitials(resource.created_by) }}
+        </span>
+        }
+      </div>
+      <span class="text-xs text-light-muted font-medium">{{
+        resource.created_by
+      }}</span>
+    </div> -->
+
+    <!-- Tags y workspace -->
+    <div class="flex flex-wrap gap-1.5">
+      <!-- Badge de workspace -->
+      <span
+        [ngClass]="
+          'text-xs px-2.5 py-1 rounded-full font-medium shadow-sm ' +
+          getWorkspaceBadgeColor(resource.workspace)
+        "
+        class="inline-flex items-center"
+      >
+        {{ getWorkspaceLabel(resource.workspace) }}
+      </span>
+
+      <!-- Tags -->
+      @for (tag of resource.tags.slice(0, 2); track tag) {
+      <span
+        class="text-xs px-2.5 py-1 border border-dark-tertiary rounded-full bg-dark-secondary text-light-primary font-medium hover:bg-dark-tertiary transition-colors duration-200"
+      >
+        {{ tag }}
+      </span>
+      } @if (resource.tags.length > 2) {
+      <span
+        class="text-xs px-2.5 py-1 border border-dark-tertiary rounded-full bg-dark-secondary text-light-primary font-medium hover:bg-dark-tertiary transition-colors duration-200"
+      >
+        +{{ resource.tags.length - 2 }}
+      </span>
+      }
+    </div>
+  </div>
+
+  <!-- Footer con información adicional -->
+  <div class="px-5 pb-4 pt-0">
+    <div
+      class="flex items-center justify-between w-full text-xs text-light-muted border-t border-dark-tertiary pt-3"
+    >
+      <!-- Tamaño -->
+      <div
+        class="flex items-center gap-1.5 hover:text-light-primary transition-colors duration-200"
+      >
+        <svg
+          class="h-3.5 w-3.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+          />
+        </svg>
+        <span class="font-medium">{{ resource.size }}</span>
+      </div>
+
+      <!-- Fecha -->
+      <div
+        class="flex items-center gap-1.5 hover:text-light-primary transition-colors duration-200"
+      >
+        <lucide-icon name="Calendar" class="h-3.5 w-3.5" />
+        <span class="font-medium">{{ resource.created_at | timeAgo }}</span>
+      </div>
+    </div>
+  </div>
+</article>
