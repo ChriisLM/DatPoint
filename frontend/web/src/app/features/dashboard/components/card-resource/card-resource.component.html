@@ -86,7 +86,7 @@
         {{ resource.title }}
       </h3>
       <div
-        class="relative flex-shrink-0 z-50"
+        class="relative flex-shrink-0 z-30"
         (click)="$event.stopPropagation()"
       >
         <dtp-actions-menu
@@ -94,7 +94,7 @@
           (actionSelected)="handleAction($event)"
         />
         <button
-          class="p-1 rounded-lg hover:bg-gray-800 transition-colors duration-200 cursor-pointer z-50"
+          class="p-1 rounded-lg hover:bg-gray-800 transition-colors duration-200 cursor-pointer z-30"
           (click)="menuOpen = !menuOpen"
         >
           <svg

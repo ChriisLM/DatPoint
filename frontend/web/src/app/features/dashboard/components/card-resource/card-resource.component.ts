@@ -108,14 +108,18 @@ export class CardResourceComponent {
 
   getResourceIcon(type: string): { name: string; class: string } {
     const icons: { [key: string]: { name: string; class: string } } = {
-      document: {
-        name: 'FileText',
-        class: 'h-8 w-8 text-blue-500 drop-shadow-sm',
-      },
+      document: { name: 'FileText', class: 'h-8 w-8 text-blue-500 drop-shadow-sm' },
+      file: { name: 'FileText', class: 'h-8 w-8 text-blue-500 drop-shadow-sm' },
+      files: { name: 'FileText', class: 'h-8 w-8 text-blue-500 drop-shadow-sm' },
       link: { name: 'Link', class: 'h-8 w-8 text-green-500 drop-shadow-sm' },
+      links: { name: 'Link', class: 'h-8 w-8 text-green-500 drop-shadow-sm' },
       image: { name: 'Image', class: 'h-8 w-8 text-purple-500 drop-shadow-sm' },
+      picture: { name: 'Image', class: 'h-8 w-8 text-purple-500 drop-shadow-sm' },
+      pictures: { name: 'Image', class: 'h-8 w-8 text-purple-500 drop-shadow-sm' },
       video: { name: 'Video', class: 'h-8 w-8 text-red-500 drop-shadow-sm' },
+      videos: { name: 'Video', class: 'h-8 w-8 text-red-500 drop-shadow-sm' },
     };
-    return icons[type] || icons['document'];
+    const normalizedType = type.toLowerCase();
+    return icons[normalizedType] || icons['document'];
   }
 }
