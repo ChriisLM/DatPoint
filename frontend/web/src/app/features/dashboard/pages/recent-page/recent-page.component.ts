@@ -3,21 +3,25 @@ import { PreviewSectionComponent } from '../../components/preview-section/previe
 import { CardResourceComponent } from "../../components/card-resource/card-resource.component";
 import { BatchActionsComponent } from "../../components/batch-actions/batch-actions.component";
 import { Resource } from '../../interfaces/dashboard.interface';
+import { CardListResourceComponent } from '../../components/card-list-resource/card-list-resource.component';
 
 @Component({
   selector: 'dtp-recent-page',
-  imports: [PreviewSectionComponent, CardResourceComponent, BatchActionsComponent],
+  imports: [PreviewSectionComponent, CardResourceComponent, BatchActionsComponent, CardListResourceComponent],
   templateUrl: './recent-page.component.html',
 })
 export default class RecentPageComponent {
+  selectedView: 'grid' | 'list' = 'grid';
+
+  onViewChange(view: 'grid' | 'list') {
+    this.selectedView = view;
+  }
+
   recentInfo = {
     title: 'Recent',
     label: '8 recently accessed resources',
     icon: 'Clock',
   };
-
-
-
 
   selectedResources: string[] = [];
   

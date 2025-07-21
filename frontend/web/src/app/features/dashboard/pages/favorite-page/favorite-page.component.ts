@@ -3,13 +3,20 @@ import { PreviewSectionComponent } from "../../components/preview-section/previe
 import { CardResourceComponent } from '../../components/card-resource/card-resource.component';
 import { BatchActionsComponent } from '../../components/batch-actions/batch-actions.component';
 import { Resource } from '../../interfaces/dashboard.interface';
+import { CardListResourceComponent } from '../../components/card-list-resource/card-list-resource.component';
 
 @Component({
   selector: 'dtp-favorite-page',
-  imports: [PreviewSectionComponent, CardResourceComponent, BatchActionsComponent],
+  imports: [PreviewSectionComponent, CardResourceComponent, BatchActionsComponent, CardListResourceComponent],
   templateUrl: './favorite-page.component.html',
 })
 export default class FavoritePageComponent { 
+  selectedView: 'grid' | 'list' = 'grid';
+
+  onViewChange(view: 'grid' | 'list') {
+    this.selectedView = view;
+  }
+
   favoriteInfo = {
     title: 'Favorite',
     label: '8 recently accessed resources',

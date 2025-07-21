@@ -12,21 +12,33 @@
         background-position: 0 0;
       "
     ></div>
-    <dtp-preview-section [sectionInfo]="recentInfo" />
+    <dtp-preview-section [sectionInfo]="recentInfo" (viewChange)="onViewChange($event)" />
     <div class="container mx-auto p-6">
       <div class="flex justify-between mb-6">
         <h1 class="text-2xl font-bold text-light-primary mb-2">My Resources</h1>
         <dtp-batch-actions [selectedResources]="selectedResources" />
       </div>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        @for (resource of resources; track resource.id) {
-        <dtp-card-resource
-          [resource]="resource"
-          [selectedResources]="selectedResources"
-          (selectionChange)="onSelectionChange($event)"
-        />
-        }
-      </div>
+      @if (selectedView == 'grid') {
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          @for (resource of resources; track resource.id) {
+          <dtp-card-resource
+            [resource]="resource"
+            [selectedResources]="selectedResources"
+            (selectionChange)="onSelectionChange($event)"
+          />
+          }
+        </div>
+      } @else if (selectedView == 'list') {
+        <div class="flex flex-col gap-4">
+          @for (resource of resources; track resource.id) {
+          <dtp-card-list-resource
+            [resource]="resource"
+            [selectedResources]="selectedResources"
+            (selectionChange)="onSelectionChange($event)"
+          />
+          }
+        </div>
+      }
     </div>
   </div>
 </section>
