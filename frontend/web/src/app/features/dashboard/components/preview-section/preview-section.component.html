@@ -22,18 +22,31 @@
     </div>
 
     <!-- Toggle -->
-    <div class="flex rounded-md overflow-hidden">
+    <div class="flex rounded-md overflow-hidden border border-dark-muted z-10">
       <button
-        class="w-8 h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-500 transition cursor-pointer"
+        class="w-8 h-8 flex items-center justify-center transition-colors cursor-pointer"
+        [ngClass]="
+          activeView === 'grid'
+            ? 'bg-blue-600 text-white hover:bg-blue-500'
+            : 'bg-light-muted text-dark-secondary hover:bg-light-tertiary'
+        "
         aria-label="Vista en cuadrícula"
+        (click)="setView('grid')"
       >
-        <lucide-icon name="Grid2X2" class="h-5 w-5 text-light-primary" />
+        <lucide-icon name="Grid2X2" class="h-5 w-5" />
       </button>
+
       <button
-        class="w-8 h-8 flex items-center justify-center bg-light-muted hover:bg-light-tertiary transition cursor-pointer"
+        class="w-8 h-8 flex items-center justify-center transition-colors cursor-pointer"
+        [ngClass]="
+          activeView === 'list'
+            ? 'bg-blue-600 text-white hover:bg-blue-500'
+            : 'bg-light-muted text-dark-secondary hover:bg-light-tertiary'
+        "
         aria-label="Vista en lista"
+        (click)="setView('list')"
       >
-        <lucide-icon name="List" class="h-5 w-5 text-dark-secondary" />
+        <lucide-icon name="List" class="h-5 w-5" />
       </button>
     </div>
   </div>

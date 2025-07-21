@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconsModule } from '../../../../shared/icons/icons.module';
 import { NgClass } from '@angular/common';
 
@@ -14,6 +14,17 @@ interface SectionInfo {
   templateUrl: './preview-section.component.html',
 })
 export class PreviewSectionComponent { 
+  activeView: 'grid' | 'list' = 'grid';
+
+  @Output() viewChange = new EventEmitter<'grid' | 'list'>();
+
+  setView(view: 'grid' | 'list') {
+    if (this.activeView !== view) {
+      this.activeView = view;
+      this.viewChange.emit(this.activeView);
+    }
+  }
+  
   @Input() sectionInfo: SectionInfo = {
     title: "Recent",
     label: '8 recently accessed resources',
