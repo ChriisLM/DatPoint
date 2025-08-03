@@ -17,9 +17,11 @@
       </div>
     </div>
   </article>
-  <div>
+  <div class="relative z-30" (click)="$event.stopPropagation()">
+    <dtp-config-menu  [isOpen]="menuOpen"/>
     <button
       class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-dark-muted/75 transition cursor-pointer"
+      (click)="menuOpen = !menuOpen"
     >
       <lucide-icon name="Settings" class="w-4 h-4 text-light-primary" />
     </button>

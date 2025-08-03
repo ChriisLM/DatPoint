@@ -1,0 +1,29 @@
+@if (isOpen) {
+<div
+  class="absolute right-0 bottom-full mb-1 w-40 bg-dark-secondary border border-dark-muted rounded-md shadow-lg z-50"
+>
+  <!-- Normal Options -->
+  <ul>
+    @for (option of options.slice(0, options.length - 1); track $index) {
+    <li
+      (click)="selectOption(option.label)"
+      class="flex items-center gap-2 px-3 py-2 text-xs text-light-primary hover:bg-dark-tertiary cursor-pointer transition"
+    >
+      <lucide-icon [name]="option.icon" class="w-4 h-4" />
+      {{ option.label }}
+    </li>
+    }
+  </ul>
+
+  <!-- Divider + Delete Option -->
+  <ul class="border-t border-dark-muted mt-1">
+    <li
+      (click)="selectOption(options[options.length - 1].label)"
+      class="flex items-center gap-2 px-3 py-2 text-xs text-red-400 hover:bg-dark-tertiary cursor-pointer transition"
+    >
+      <lucide-icon [name]="options[options.length - 1].icon" class="w-4 h-4" />
+      {{ options[options.length - 1].label }}
+    </li>
+  </ul>
+</div>
+}
