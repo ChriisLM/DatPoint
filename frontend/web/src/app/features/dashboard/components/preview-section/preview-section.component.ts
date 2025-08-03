@@ -33,7 +33,7 @@ export class PreviewSectionComponent {
 
   cardsInfo = [
     { color: "blue", icon: "FileText", label: "Files", count: 2, type: "recent" },
-    { color: "purple", icon: "Image", label: "Pictures", count: 2, type: "favorite" },
+    { color: "purple", icon: "Image", label: "Images", count: 2, type: "favorite" },
     { color: "green", icon: "Link", label: "Links", count: 2, type: "search" },
     { color: "red", icon: "Video", label: "Videos", count: 2, type: "recent" }
   ];

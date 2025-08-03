@@ -10,7 +10,7 @@
   <div class="relative flex items-center gap-4 p-4">
     <!-- Checkbox mejorado -->
     <div
-      class="opacity-0 scale-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100"
+      class="absolute left-4 top-4 z-20 opacity-0 scale-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100"
     >
       <button
         [ngClass]="checkboxClasses"
@@ -38,14 +38,14 @@
 
       <div class="absolute inset-0 flex items-center justify-center">
         <lucide-icon
-          [name]="getResourceIcon(resource.type).name"
-          [class]="getResourceIcon(resource.type).class"
+          [name]="getResourceIcon(resource.resource_type).name"
+          [class]="getResourceIcon(resource.resource_type).class"
         />
       </div>
 
       <!-- Imagen principal -->
       <img
-        [src]="resource.thumbnail || '/placeholder.svg'"
+        [src]="'/placeholder.svg'"
         [alt]="resource.title"
         [ngClass]="imageClasses"
         (error)="showFallback = true"
@@ -84,11 +84,11 @@
         <span
           [ngClass]="
             'text-xs px-2.5 py-1 rounded-full font-medium shadow-sm ' +
-            getWorkspaceBadgeColor(resource.workspace)
+            getWorkspaceBadgeColor(resource.work_space)
           "
           class="inline-flex items-center"
         >
-          {{ getWorkspaceLabel(resource.workspace) }}
+          {{ getWorkspaceLabel(resource.work_space) }}
         </span>
 
         <!-- Tags -->
@@ -150,26 +150,6 @@
       </div>
       <!-- Información adicional -->
       <div class="hidden md:flex items-center gap-4 text-xs text-light-muted">
-        <!-- Tamaño -->
-        <div
-          class="flex items-center gap-1.5 hover:text-light-primary transition-colors duration-200"
-        >
-          <svg
-            class="h-3.5 w-3.5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
-            />
-          </svg>
-          <span class="font-medium">{{ resource.size }}</span>
-        </div>
-
         <!-- Fecha -->
         <div
           class="flex items-center gap-1.5 hover:text-light-primary transition-colors duration-200"

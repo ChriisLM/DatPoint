@@ -21,7 +21,7 @@ export class SidebarNavegationComponent {
   categoryItems = [
     { label: 'Link', icon: 'Link', route: '/dashboard/type/links' },
     { label: 'File', icon: 'FileText', route: '/dashboard/type/files' },
-    { label: 'Image', icon: 'Image', route: '/dashboard/type/pictures' },
+    { label: 'Image', icon: 'Image', route: '/dashboard/type/images' },
     { label: 'Video', icon: 'Video', route: '/dashboard/type/videos' },
   ];
 
