@@ -13,10 +13,10 @@
       </p>
     </div>
 
-    <div class="flex gap-2 mb-4 px-4">
+    <div class="flex mb-4 px-4">
       <button
         type="button"
-        class="flex-1 px-4 py-2 rounded border font-semibold transition cursor-pointer"
+        class="flex-1 px-4 py-2 rounded-l-md border font-semibold transition cursor-pointer"
         [ngClass]="{
           'bg-blue-500 text-white border-blue-500': activeTab === 0,
           'bg-dark-muted text-light-secondary border-dark-muted/80':
@@ -28,7 +28,7 @@
       </button>
       <button
         type="button"
-        class="flex-1 px-4 py-2 rounded border font-semibold transition cursor-pointer"
+        class="flex-1 px-4 py-2 rounded-r-md border font-semibold transition cursor-pointer"
         [ngClass]="{
           'bg-blue-500 text-white border-blue-500': activeTab === 1,
           'bg-dark-muted text-light-secondary border-dark-muted/80':
@@ -110,56 +110,37 @@
 
       <!-- File form -->
       <form [formGroup]="fileForm" class="flex flex-col gap-3" novalidate>
-        <label class="flex flex-col font-semibold text-light-primary">
+        <label class="flex flex-col font-semibold  text-light-tertiary">
           Title
           <input
             type="text"
             formControlName="title"
-            class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
+            class="mt-1 px-2 py-3 text-light-primary border rounded text-sm font-medium resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
             placeholder="Resource name"
             required
           />
           @if (fileForm.get('title')?.invalid && fileForm.get('title')?.touched)
           {
-          <span class="text-red-500 text-sm mt-1">* required title</span>
+          <span class="text-red-300 text-sm mt-1">* required title</span>
           }
         </label>
 
-        <label class="flex flex-col font-semibold text-light-primary">
+        <label class="flex flex-col font-semibold  text-light-tertiary">
           Description
           <textarea
             rows="3"
             formControlName="description"
-            class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
+            class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
             placeholder="Resource description"
           ></textarea>
         </label>
 
         <div class="flex gap-4">
-          <label class="flex flex-col flex-1 font-semibold text-light-primary">
-            Category
-            <select
-              formControlName="category"
-              class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:outline-none"
-              required
-            >
-              <option value="">Select...</option>
-              <option value="documents">Files</option>
-              <option value="images">Pictures</option>
-              <option value="videos">Videos</option>
-              <option value="audio">Audio</option>
-            </select>
-            @if (fileForm.get('category')?.invalid &&
-            fileForm.get('category')?.touched) {
-            <span class="text-red-500 text-sm mt-1">* required category</span>
-            }
-          </label>
-
-          <label class="flex flex-col flex-1 font-semibold text-light-primary">
-            Work Space (optional)
+          <label class="flex flex-col flex-1 font-semibold  text-light-tertiary">
+            Work Space
             <select
               formControlName="workspace"
-              class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:outline-none"
+              class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:outline-none"
               required
             >
               <option value="">Select...</option>
@@ -176,12 +157,12 @@
           </label>
         </div>
 
-        <label class="flex flex-col font-semibold text-light-primary">
+        <label class="flex flex-col font-semibold  text-light-tertiary">
           Tags
           <input
             type="text"
             formControlName="tags"
-            class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
+            class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
             placeholder="Separated by commas (e.g.: work, important)"
           />
         </label>
@@ -193,51 +174,51 @@
     @if (activeTab === 1) {
     <div class="p-4 min-h-[400px]">
       <form [formGroup]="linkForm" class="flex flex-col gap-3" novalidate>
-        <label class="flex flex-col font-semibold text-light-primary">
+        <label class="flex flex-col font-semibold text-light-tertiary">
           URL
           <input
             type="url"
             formControlName="url"
-            class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
+            class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
             placeholder="https://example.com"
             required
           />
           @if (linkForm.get('url')?.invalid && linkForm.get('url')?.touched) {
-          <span class="text-red-500 text-sm mt-1">* valid URL required</span>
+          <span class="text-red-300 text-sm mt-1">* valid URL required</span>
           }
         </label>
 
-        <label class="flex flex-col font-semibold text-light-primary">
+        <label class="flex flex-col font-semibold text-light-tertiary">
           Title
           <input
             type="text"
             formControlName="title"
-            class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
+            class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
             placeholder="Resource name"
             required
           />
           @if (linkForm.get('title')?.invalid && linkForm.get('title')?.touched)
           {
-          <span class="text-red-500 text-sm mt-1">* required title</span>
+          <span class="text-red-300 text-sm mt-1">* required title</span>
           }
         </label>
 
-        <label class="flex flex-col font-semibold text-light-primary">
+        <label class="flex flex-col font-semibold text-light-tertiary">
           Description
           <textarea
             rows="3"
             formControlName="description"
-            class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
+            class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
             placeholder="Resource description"
           ></textarea>
         </label>
 
         <div class="flex gap-4">
-          <label class="flex-1 flex flex-col font-semibold text-light-primary">
-            Work Space (optional)
+          <label class="flex flex-col flex-1 font-semibold  text-light-tertiary">
+            Work Space
             <select
               formControlName="workspace"
-              class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:outline-none"
+              class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:outline-none"
               required
             >
               <option value="">Select...</option>
@@ -245,24 +226,18 @@
               <option value="work">Work</option>
               <option value="projects">Projects</option>
             </select>
-            <!-- @if (linkForm.get('workspace')?.invalid && linkForm.get('workspace')?.touched) {
-                <span
-                  class="text-red-500 text-sm mt-1"
-                  >Espacio requerido</span
-                >
-              } -->
-          </label>
-
-          <label class="flex-1 flex flex-col font-semibold text-light-primary">
-            Tags
-            <input
-              type="text"
-              formControlName="tags"
-              class="mt-1 px-2 py-3 text-light-tertiary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
-              placeholder="Separated by commas (e.g.: work, important)"
-            />
           </label>
         </div>
+
+        <label class="flex flex-col font-semibold  text-light-tertiary">
+          Tags
+          <input
+            type="text"
+            formControlName="tags"
+            class="mt-1 px-2 py-3 text-light-primary border rounded text-sm resize-y border-dark-muted focus:border-blue-300 focus:ring-2 focus:ring-light-muted/50 focus:outline-none"
+            placeholder="Separated by commas (e.g.: work, important)"
+          />
+        </label>
       </form>
     </div>
     }

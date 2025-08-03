@@ -16,7 +16,6 @@ import {
 import { DialogStateService } from '../../services/DialogStateService.service';
 import { NgClass } from '@angular/common';
 
-interface AddResourceData {}
 
 @Component({
   selector: 'dtp-add-resource-dialog',
@@ -56,7 +55,6 @@ export class AddResourceDialogComponent {
     this.fileForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
-      category: ['', Validators.required],
       workspace: ['', Validators.required],
       tags: [''],
     });
@@ -70,11 +68,10 @@ export class AddResourceDialogComponent {
     });
   }
 
+  //salir del modal con cliick fuera del formulario
   @HostListener('document:click', ['$event'])
   closeOnOutsideClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-
-    // Busca si el click ocurrió dentro de un .menu-wrapper
     const clickedInsideModal = target.closest('.menu-wrapper');
 
     if (!clickedInsideModal) {
@@ -82,6 +79,7 @@ export class AddResourceDialogComponent {
     }
   }
 
+  //funciones para el drag and drop de los archivos
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -142,6 +140,7 @@ export class AddResourceDialogComponent {
     else return (bytes / 1024 / 1024).toFixed(2) + ' MB';
   }
 
+  //funciones de los botones
   onCancel() {
     this.cancelDialog.emit();
     this.modalService.setModalOpen(false);
