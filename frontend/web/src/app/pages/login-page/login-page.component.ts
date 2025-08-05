@@ -1,6 +1,7 @@
 import {
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 
@@ -10,7 +11,7 @@ import { IconsModule } from '../../shared/icons/icons.module';
 
 @Component({
   selector: 'dtp-login-page',
-  imports: [IconsModule, RouterLink],
+  imports: [IconsModule, RouterLink, ReactiveFormsModule],
   templateUrl: './login-page.component.html',
 })
 export default class LoginPageComponent {

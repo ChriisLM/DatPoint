@@ -1,7 +1,7 @@
 <div
-  class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+  class="min-h-screen bg-gradient-to-br from-dark-primary to-dark-tertiary flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8"
 >
-  <div class="max-w-md w-full space-y-8">
+  <div class="max-w-md w-full space-y-4">
     <!-- Header -->
     <div class="text-center">
       <div
@@ -21,21 +21,23 @@
           />
         </svg>
       </div>
-      <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Inicia sesión</h2>
-      <p class="mt-2 text-sm text-gray-600">
-        Accede a tu sistema de gestión de recursos
+      <h2 class="mt-2 text-3xl font-extrabold text-light-secondary">
+        Login
+      </h2>
+      <p class="mt-2 text-sm text-light-muted">
+        Access to your resource management system
       </p>
     </div>
 
     <!-- Login Form -->
     <form
-      class="mt-8 space-y-6 bg-white p-8 rounded-xl shadow-lg border border-gray-100"
-      (ngSubmit)="onSubmit()"
+      class="mt-4 space-y-6 bg-dark-secondary p-8 rounded-xl shadow-lg border border-dark-muted"
+      (ngSubmit)="onSubmit()" [formGroup]="loginForm"
     >
       <!-- Error Message -->
       @if (errorMessage != '') {
       <div
-        class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg"
+        class="bg-red-50 border border-red-200 text-red-400 px-4 py-3 rounded-lg"
       >
         {{ errorMessage }}
       </div>
@@ -43,15 +45,18 @@
 
       <!-- Email Field -->
       <div class="space-y-2">
-        <label for="email" class="block text-sm font-medium text-gray-700">
-          Correo electrónico
+        <label
+          for="email"
+          class="block text-sm font-medium text-light-tertiary"
+        >
+          E-mail
         </label>
         <div class="mt-1 relative">
           <input
             id="email"
             type="email"
             formControlName="email"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-colors"
+            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-colors"
             [class.border-red-300]="email?.invalid && email?.touched"
             [class.focus:ring-red-500]="email?.invalid && email?.touched"
             [class.focus:border-red-500]="email?.invalid && email?.touched"
@@ -74,33 +79,37 @@
           </div>
         </div>
         @if (email?.invalid && email?.touched) {
-        <div class="text-red-500 text-xs mt-1">
+        <div class="text-red-400 text-xs mt-1">
           @if (email?.errors?.['required']) {
 
-          <span>El correo electrónico es requerido</span>
-          } @else if (email?.errors?.['email']) {}
-          <span>Ingresa un correo electrónico válido</span>
+          <span>E-mail is required</span>
+          } @else if (email?.errors?.['email']) {
+            <span>Enter a valid email address</span>
+          }
         </div>
         }
       </div>
 
       <!-- Password Field -->
       <div class="space-y-2">
-        <label for="password" class="block text-sm font-medium text-gray-700">
-          Contraseña
+        <label
+          for="password"
+          class="block text-sm font-medium text-light-tertiary"
+        >
+          Password
         </label>
         <div class="mt-1 relative">
           <input
             id="password"
             [type]="showPassword ? 'text' : 'password'"
             formControlName="password"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-colors pr-10"
+            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-colors pr-10"
             [class.border-red-300]="password?.invalid && password?.touched"
             [class.focus:ring-red-500]="password?.invalid && password?.touched"
             [class.focus:border-red-500]="
               password?.invalid && password?.touched
             "
-            placeholder="Tu contraseña"
+            placeholder="Your Password"
           />
           <button
             type="button"
@@ -145,11 +154,11 @@
           </button>
         </div>
         @if (password?.invalid && password?.touched) {
-        <div class="text-red-500 text-xs mt-1">
+        <div class="text-red-400 text-xs mt-1">
           @if (password?.errors?.['required']) {
-          <span>La contraseña es requerida</span>
+          <span>Password is required</span>
           } @else if (password?.errors?.['minlength']) {
-          <span>La contraseña debe tener al menos 6 caracteres</span>
+          <span>The password must be at least 6 characters long</span>
           }
         </div>
         }
@@ -162,18 +171,21 @@
             id="remember-me"
             type="checkbox"
             formControlName="rememberMe"
-            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            class="h-4 w-4 text-blue-500 focus:ring-indigo-500 border-gray-300 rounded"
           />
-          <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-            Recordarme
+          <label
+            for="remember-me"
+            class="ml-2 block text-sm text-light-tertiary"
+          >
+            Remember me
           </label>
         </div>
         <div class="text-sm">
           <a
             href="#"
-            class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+            class="font-medium text-blue-500 hover:text-blue-600 transition-colors"
           >
-            ¿Olvidaste tu contraseña?
+            Forgot your password?
           </a>
         </div>
       </div>
@@ -182,7 +194,7 @@
       <div>
         <button
           type="submit"
-          class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           [disabled]="isLoading"
         >
           @if (isLoading) {
@@ -209,19 +221,19 @@
             </svg>
           </span>
           }
-          {{ isLoading ? "Iniciando sesión..." : "Iniciar sesión" }}
+          {{ isLoading ? "Logging in..." : "Login" }}
         </button>
       </div>
 
       <!-- Register Link -->
       <div class="text-center">
-        <p class="text-sm text-gray-600">
-          ¿No tienes una cuenta?
+        <p class="text-sm text-light-tertiary">
+          Don't have an account?
           <a
             routerLink="/register"
-            class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+            class="font-medium text-blue-500 hover:text-blue-600 transition-colors"
           >
-            Regístrate aquí
+            Register here
           </a>
         </p>
       </div>

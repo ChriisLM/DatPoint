@@ -1,7 +1,7 @@
 <div
-  class="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+  class="min-h-screen bg-gradient-to-br from-dark-primary to-dark-tertiary flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8"
 >
-  <div class="max-w-md w-full space-y-8">
+  <div class="max-w-md w-full space-y-4">
     <!-- Header -->
     <div class="text-center">
       <div
@@ -21,16 +21,16 @@
           />
         </svg>
       </div>
-      <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Crear cuenta</h2>
-      <p class="mt-2 text-sm text-gray-600">
-        Únete al sistema de gestión de recursos
+      <h2 class="mt-2 text-3xl font-extrabold text-light-secondary">Create an account</h2>
+      <p class="mt-2 text-sm text-light-muted">
+        Join the resource management system
       </p>
     </div>
 
     <!-- Register Form -->
     <form
-      class="mt-8 space-y-6 bg-white p-8 rounded-xl shadow-lg border border-gray-100"
-      (ngSubmit)="onSubmit()"
+      class="mt-8 space-y-6 bg-dark-secondary p-8 rounded-xl shadow-lg border border-dark-muted"
+      (ngSubmit)="onSubmit()" [formGroup]="registerForm"
     >
       <!-- Success Message -->
       @if (successMessage) {
@@ -44,7 +44,7 @@
       <!-- Error Message -->
       @if (errorMessage) {
       <div
-        class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg"
+        class="bg-red-50/75 border border-red-200 text-red-400 px-4 py-3 rounded-lg"
       >
         {{ errorMessage }}
       </div>
@@ -56,15 +56,15 @@
         <div class="space-y-2">
           <label
             for="firstName"
-            class="block text-sm font-medium text-gray-700"
+            class="block text-sm font-medium text-light-tertiary"
           >
-            Nombre
+            Name
           </label>
           <input
             id="firstName"
             type="text"
             formControlName="firstName"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
+            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
             [class.border-red-300]="firstName?.invalid && firstName?.touched"
             [class.focus:ring-red-500]="
               firstName?.invalid && firstName?.touched
@@ -72,14 +72,14 @@
             [class.focus:border-red-500]="
               firstName?.invalid && firstName?.touched
             "
-            placeholder="Tu nombre"
+            placeholder="Your Name"
           />
           @if (firstName?.invalid && firstName?.touched) {
-          <div class="text-red-500 text-xs mt-1">
+          <div class="text-red-400 text-xs mt-1">
             @if (firstName?.errors?.['required']) {
-            <span>El nombre es requerido</span>
+            <span>Name is required</span>
             } @else if (firstName?.errors?.['minlength']) {
-            <span>Mínimo 2 caracteres</span>
+            <span>Minimum 2 characters</span>
             }
           </div>
           }
@@ -87,27 +87,27 @@
 
         <!-- Last Name -->
         <div class="space-y-2">
-          <label for="lastName" class="block text-sm font-medium text-gray-700">
-            Apellido
+          <label for="lastName" class="block text-sm font-medium text-light-tertiary">
+            Last name
           </label>
           <input
             id="lastName"
             type="text"
             formControlName="lastName"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
+            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
             [class.border-red-300]="lastName?.invalid && lastName?.touched"
             [class.focus:ring-red-500]="lastName?.invalid && lastName?.touched"
             [class.focus:border-red-500]="
               lastName?.invalid && lastName?.touched
             "
-            placeholder="Tu apellido"
+            placeholder="Your Last name"
           />
           @if (lastName?.invalid && lastName?.touched) {
-          <div class="text-red-500 text-xs mt-1">
+          <div class="text-red-400 text-xs mt-1">
             @if (lastName?.errors?.['required']) {
-            <span>El apellido es requerido</span>
+            <span>Last name is required</span>
             } @else if (lastName?.errors?.['minlength']) {
-            <span>Mínimo 2 caracteres</span>
+            <span>Minimum 2 characters</span>
             }
           </div>
           }
@@ -116,15 +116,15 @@
 
       <!-- Email Field -->
       <div class="space-y-2">
-        <label for="email" class="block text-sm font-medium text-gray-700">
-          Correo electrónico
+        <label for="email" class="block text-sm font-medium text-light-tertiary">
+          E-mail
         </label>
         <div class="mt-1 relative">
           <input
             id="email"
             type="email"
             formControlName="email"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
+            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
             [class.border-red-300]="email?.invalid && email?.touched"
             [class.focus:ring-red-500]="email?.invalid && email?.touched"
             [class.focus:border-red-500]="email?.invalid && email?.touched"
@@ -147,11 +147,11 @@
           </div>
         </div>
         @if (email?.invalid && email?.touched) {
-        <div class="text-red-500 text-xs mt-1">
+        <div class="text-red-400 text-xs mt-1">
           @if (email?.errors?.['required']) {
-          <span>El correo electrónico es requerido</span>
+          <span>E-mail is required</span>
           } @else if (email?.errors?.['email']) {
-          <span>Ingresa un correo electrónico válido</span>
+          <span>Enter a valid email address</span>
           }
         </div>
         }
@@ -159,13 +159,13 @@
 
       <!-- Department Field -->
       <div class="space-y-2">
-        <label for="department" class="block text-sm font-medium text-gray-700">
-          Departamento
+        <label for="department" class="block text-sm font-medium text-light-tertiary">
+          Department
         </label>
         <select
           id="department"
           formControlName="department"
-          class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
+          class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
           [class.border-red-300]="department?.invalid && department?.touched"
           [class.focus:ring-red-500]="
             department?.invalid && department?.touched
@@ -174,7 +174,7 @@
             department?.invalid && department?.touched
           "
         >
-          <option value="">Selecciona tu departamento</option>
+          <option value="">Select your department</option>
           @for (dept of departments; track $index) {
           <option [value]="dept.value">
             {{ dept.label }}
@@ -182,9 +182,9 @@
           }
         </select>
         @if (department?.invalid && department?.touched) {
-        <div class="text-red-500 text-xs mt-1">
+        <div class="text-red-400 text-xs mt-1">
           @if (department?.errors?.['required']) {
-          <span>El departamento es requerido</span>
+          <span>The department is required</span>
           }
         </div>
         }
@@ -192,21 +192,21 @@
 
       <!-- Password Field -->
       <div class="space-y-2">
-        <label for="password" class="block text-sm font-medium text-gray-700">
-          Contraseña
+        <label for="password" class="block text-sm font-medium text-light-tertiary">
+          Password
         </label>
         <div class="mt-1 relative">
           <input
             id="password"
             [type]="showPassword ? 'text' : 'password'"
             formControlName="password"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
+            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
             [class.border-red-300]="password?.invalid && password?.touched"
             [class.focus:ring-red-500]="password?.invalid && password?.touched"
             [class.focus:border-red-500]="
               password?.invalid && password?.touched
             "
-            placeholder="Tu contraseña"
+            placeholder="Your password"
           />
           <button
             type="button"
@@ -251,14 +251,14 @@
           </button>
         </div>
         @if (password?.invalid && password?.touched) {
-        <div class="text-red-500 text-xs mt-1">
+        <div class="text-red-400 text-xs mt-1">
           @if (password?.errors?.['required']) {
-          <span>La contraseña es requerida</span>
+          <span>Password is required</span>
           } @else if (password?.errors?.['minlength']) {
-          <span>Mínimo 8 caracteres</span>
+          <span>Minimum 8 characters</span>
           } @else if (password?.errors?.['passwordStrength']) {
           <span>
-            Debe contener: mayúscula, minúscula, número y carácter especial
+            Must contain: uppercase, lowercase, number and special character
           </span>
           }
         </div>
@@ -288,7 +288,7 @@
             [class.text-red-500]="password?.errors?.['passwordStrength']"
             [class.text-green-600]="!password?.errors?.['passwordStrength']"
           >
-            {{ password?.errors?.['passwordStrength'] ? 'Contraseña débil' : 'Contraseña segura' }}
+            {{ password?.errors?.['passwordStrength'] ? 'Weak password' : 'Secure password' }}
           </p>
         </div>
         }
@@ -298,20 +298,20 @@
       <div class="space-y-2">
         <label
           for="confirmPassword"
-          class="block text-sm font-medium text-gray-700"
+          class="block text-sm font-medium text-light-tertiary"
         >
-          Confirmar contraseña
+          Confirm password
         </label>
         <div class="mt-1 relative">
           <input
             id="confirmPassword"
             [type]="showConfirmPassword ? 'text' : 'password'"
             formControlName="confirmPassword"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
+            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
             [class.border-red-300]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
             [class.focus:ring-red-500]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
             [class.focus:border-red-500]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
-            placeholder="Confirma tu contraseña"
+            placeholder="Confirm your password"
           />
           <button
             type="button"
@@ -358,11 +358,11 @@
         @if ((confirmPassword?.invalid && confirmPassword?.touched) ||
         (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched))
         {
-        <div class="text-red-500 text-xs mt-1">
+        <div class="text-red-400 text-xs mt-1">
           @if (confirmPassword?.errors?.['required']) {
-          <span>La confirmación de contraseña es requerida</span>
+          <span>Password confirmation is required</span>
           } @else if (registerForm.errors?.['passwordMismatch']) {
-          <span>Las contraseñas no coinciden</span>
+          <span>Passwords do not match</span>
           }
         </div>
         }
@@ -375,29 +375,29 @@
             id="acceptTerms"
             type="checkbox"
             formControlName="acceptTerms"
-            class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded mt-1"
+            class="h-4 w-4 text-emerald-500 focus:ring-emerald-600 border-gray-300 rounded mt-1"
           />
-          <label for="acceptTerms" class="ml-2 block text-sm text-gray-900">
-            Acepto los
+          <label for="acceptTerms" class="ml-2 block text-sm text-light-secondary">
+            I accept the
             <a
               href="#"
-              class="font-medium text-emerald-600 hover:text-emerald-500 transition-colors"
+              class="font-medium text-emerald-500 hover:text-emerald-600 transition-colors"
             >
-              términos y condiciones
+              terms and conditions
             </a>
-            y la
+            and
             <a
               href="#"
-              class="font-medium text-emerald-600 hover:text-emerald-500 transition-colors"
+              class="font-medium text-emerald-500 hover:text-emerald-600 transition-colors"
             >
-              política de privacidad
+              privacy policy
             </a>
           </label>
         </div>
         @if (acceptTerms?.invalid && acceptTerms?.touched) {
-        <div class="text-red-500 text-xs">
+        <div class="text-red-400 text-xs">
           @if (acceptTerms?.errors?.['required']) {
-          <span>Debes aceptar los términos y condiciones</span>
+          <span>You must accept the terms and conditions</span>
           }
         </div>
         }
@@ -434,19 +434,19 @@
             </svg>
           </span>
           }
-          {{ isLoading ? "Creando cuenta..." : "Crear cuenta" }}
+          {{ isLoading ? "Creating account..." : "Create account" }}
         </button>
       </div>
 
       <!-- Login Link -->
       <div class="text-center">
-        <p class="text-sm text-gray-600">
-          ¿Ya tienes una cuenta?
+        <p class="text-sm text-light-tertiary">
+          Already have an account?
           <a
             routerLink="/login"
-            class="font-medium text-emerald-600 hover:text-emerald-500 transition-colors"
+            class="font-medium text-emerald-500 hover:text-emerald-600 transition-colors"
           >
-            Inicia sesión aquí
+            Login here
           </a>
         </p>
       </div>

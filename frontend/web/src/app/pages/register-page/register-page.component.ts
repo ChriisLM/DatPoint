@@ -1,17 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   AbstractControl,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register-page',
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './register-page.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `
+      option {
+        background-color: var(--color-dark-secondary);
+      }
+    `,
+  ],
 })
 export default class RegisterPageComponent {
   registerForm: FormGroup;
@@ -91,7 +98,7 @@ export default class RegisterPageComponent {
 
         // Simular respuesta exitosa
         this.isLoading = false;
-        this.successMessage = 'Cuenta creada exitosamente. Redirigiendo...';
+        this.successMessage = 'Account successfully created. Redirecting...';
 
         setTimeout(() => {
           this.router.navigate(['/login']);
