@@ -16,7 +16,8 @@ class ResourceBase(BaseModel):
     tags: Optional[List[str]] = []
     is_public: bool = False
     priority: Optional[str] = "normal"
-
+    work_space: Optional[str] = None
+    favorite: bool = False
 
 class ResourceCreate(ResourceBase):
     created_by: UUID
@@ -30,8 +31,10 @@ class ResourceUpdate(BaseModel):
     link_url: Optional[str] = None
     metadata: Optional[dict] = None
     tags: Optional[List[str]] = None
-    is_public: Optional[bool] = None
+    is_public: Optional[bool] = False
     priority: Optional[str] = None
+    work_space: Optional[str] = None
+    favorite: Optional[bool] = False
 
 
 class ResourceOut(ResourceBase):
