@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 from app.models.resource_model import ResourceWithSimilarity
 from app.utils.resource_similarity import find_similar_resources
 
-router = APIRouter(prefix="/search", tags=["Search"])
+router = APIRouter(prefix="/api/search", tags=["Search"])
 
 
 @router.get("/", response_model=List[ResourceWithSimilarity])

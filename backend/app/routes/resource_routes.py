@@ -16,7 +16,7 @@ from app.services.resource_services import (
 )
 from app.services.user_services import get_current_user
 
-router = APIRouter(prefix="/resources", tags=["Resources"])
+router = APIRouter(prefix="/api/resources", tags=["Resources"])
 
 
 @router.post("/", response_model=ResourceOut, status_code=status.HTTP_201_CREATED)

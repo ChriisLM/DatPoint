@@ -7,7 +7,7 @@ from app.services.user_services import (
     update_current_user,
 )
 
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter(prefix="/api/users", tags=["Users"])
 
 
 @router.post("/me", response_model=UserOut)
