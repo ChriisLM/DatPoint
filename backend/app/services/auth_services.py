@@ -2,9 +2,9 @@ from datetime import timedelta
 from fastapi import HTTPException, status
 from jose import JWTError
 
-from app.models.auth_models import TokenOut
+from app.models.auth_models import AuthUser, TokenOut
 from app.models.user_model import UserLogin
-from app.services.user_services import get_user_by_email_verify
+from app.services.user_services import get_user_by_email_verify, get_user_by_id
 from app.utils.security import create_token, decode_token, verify_password
 from app.config import settings
 
@@ -23,9 +23,14 @@ async def login_user_service(user: UserLogin) -> TokenOut:
     access_token = create_token(token_data, ACCESS_TOKEN_EXPIRE)
     refresh_token = create_token(token_data, REFRESH_TOKEN_EXPIRE)
 
+    auth_user = AuthUser(**db_user.model_dump())
+    
     return TokenOut(
+        success=True,
         access_token=access_token,
-        refresh_token=refresh_token
+        refresh_token=refresh_token,
+        message="Login Exitoso",
+        user=auth_user
     )
 
 async def refresh_token_service(refresh_token: str) -> TokenOut:
@@ -39,17 +44,30 @@ async def refresh_token_service(refresh_token: str) -> TokenOut:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid refresh token"
             )
+            
+        db_user = await get_user_by_id(user_id)
+        if not db_user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
 
-        token_data = {"sub": user_id, "username": username}
+        auth_user = AuthUser(**db_user.model_dump())
+
+        token_data = {"sub": str(user_id), "username": username}
 
         access_token = create_token(token_data, ACCESS_TOKEN_EXPIRE)
         new_refresh_token = create_token(token_data, REFRESH_TOKEN_EXPIRE)
 
         return TokenOut(
+            success=True,
             access_token=access_token,
-            refresh_token=new_refresh_token
+            refresh_token=new_refresh_token,
+            token_type="bearer",
+            message="Token refrescado exitosamente",
+            user=auth_user
         )
-
+        
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
