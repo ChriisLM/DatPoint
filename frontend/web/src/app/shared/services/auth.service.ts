@@ -12,6 +12,7 @@ export class AuthService {
   private readonly API_URL = 'http://127.0.0.1:8000/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   private tokenKey = 'auth_token';
+  private refreshTokenKey = 'auth_refresh_token';
   private userKey = 'auth_user';
 
   constructor(private http: HttpClient) {
@@ -31,11 +32,12 @@ export class AuthService {
       .post<AuthResponse>(`${this.API_URL}/login`, credentials)
       .pipe(
         tap((response) => {
-          if (response.success && response.user && response.token) {
+          if (response.success && response.user && response.access_token) {
             this.setSession(
               response.user,
-              response.token,
-              credentials.rememberMe
+              response.access_token,
+              credentials.rememberMe,
+              response.refresh_token
             );
           }
         }),
@@ -64,13 +66,13 @@ export class AuthService {
   }
 
   logout(): void {
-    // Limpiar localStorage
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    localStorage.removeItem(this.refreshTokenKey);
     sessionStorage.removeItem(this.tokenKey);
     sessionStorage.removeItem(this.userKey);
+    sessionStorage.removeItem(this.refreshTokenKey);
 
-    // Limpiar estado
     this.currentUserSubject.next(null);
   }
 
@@ -78,7 +80,6 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return false;
 
-    // Verificar si el token no ha expirado
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const currentTime = Math.floor(Date.now() / 1000);
@@ -95,19 +96,31 @@ export class AuthService {
     );
   }
 
-  refreshToken(): Observable<AuthResponse> {
-    const token = this.getToken();
-    if (!token) {
-      return of({ success: false, message: 'No token available' });
-    }
+  getAccessToken(): string | null {
+    return localStorage.getItem(this.refreshTokenKey);
+  }
 
+  setAccessToken(token: string) {
+    localStorage.setItem(this.tokenKey, token);
+  }
+
+  refreshToken(): Observable<AuthResponse> {
+    const refreshToken =
+    localStorage.getItem(this.refreshTokenKey) ||
+    sessionStorage.getItem(this.refreshTokenKey);
+
+    if (!refreshToken) {
+      return of({ success: false, message: 'No refresh token available' });
+    }
+    console.log("Hice el refresh");
+    
     return this.http
-      .post<AuthResponse>(`${this.API_URL}/refresh`, { token })
+      .post<AuthResponse>(`${this.API_URL}/refresh`, { refresh_token: refreshToken })
       .pipe(
         tap((response) => {
-          if (response.success && response.user && response.token) {
+          if (response.success && response.user && response.access_token && response.refresh_token) {
             const rememberMe = localStorage.getItem(this.tokenKey) !== null;
-            this.setSession(response.user, response.token, rememberMe);
+            this.setSession(response.user, response.access_token, rememberMe, response.refresh_token);
           }
         }),
         catchError((error) => {
@@ -152,11 +165,15 @@ export class AuthService {
       );
   }
 
-  private setSession(user: User, token: string, rememberMe = false): void {
+  private setSession(user: User, token: string, rememberMe = false, refreshToken?: string): void {
     const storage = rememberMe ? localStorage : sessionStorage;
 
     storage.setItem(this.tokenKey, token);
     storage.setItem(this.userKey, JSON.stringify(user));
+
+    if (refreshToken) {
+      storage.setItem(this.refreshTokenKey, refreshToken);
+    }
 
     this.currentUserSubject.next(user);
   }
