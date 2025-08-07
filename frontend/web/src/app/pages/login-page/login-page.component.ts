@@ -8,6 +8,7 @@ import {
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { IconsModule } from '../../shared/icons/icons.module';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'dtp-login-page',
@@ -20,7 +21,7 @@ export default class LoginPageComponent {
   showPassword = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -33,20 +34,28 @@ export default class LoginPageComponent {
       this.isLoading = true;
       this.errorMessage = '';
 
-      // Simular llamada a API
-      setTimeout(() => {
-        const { email, password } = this.loginForm.value;
+      const credentials = this.loginForm.value;
 
-        // Aquí iría tu lógica de autenticación
-        console.log('Login attempt:', { email, password });
-
-        // Simular respuesta exitosa
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
         this.isLoading = false;
-        this.router.navigate(['/dashboard']); // Redirigir al dashboard
-      }, 1500);
-    } else {
-      this.markFormGroupTouched();
-    }
+
+        if (response.success) {
+          // Redirige si todo fue bien
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.errorMessage = response.message || 'Credenciales inválidas';
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = 'Ocurrió un error. Intenta nuevamente.';
+        console.error('Error en login:', error);
+      }
+    });
+  } else {
+    this.markFormGroupTouched();
+  }
   }
 
   togglePasswordVisibility() {
