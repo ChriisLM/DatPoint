@@ -27,6 +27,8 @@ class UserUpdate(BaseModel):
 
 
 class UserOut(UserBase):
+    success: bool
+    message: str
     id: UUID
     created_at: datetime
     updated_at: datetime

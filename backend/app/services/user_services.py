@@ -27,6 +27,8 @@ async def create_user(user_data: UserCreate) -> UserOut:
         raise Exception("No user data returned after creation")
 
     created_user = response.data[0]
+    created_user["success"] = True
+    created_user["message"] = "User created successfully"
     return UserOut(**created_user)
 
 
