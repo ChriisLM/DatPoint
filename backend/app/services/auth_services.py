@@ -23,7 +23,10 @@ async def login_user_service(user: UserLogin) -> TokenOut:
     access_token = create_token(token_data, ACCESS_TOKEN_EXPIRE)
     refresh_token = create_token(token_data, REFRESH_TOKEN_EXPIRE)
 
-    auth_user = AuthUser(**db_user.model_dump())
+    user_dict = db_user.model_dump()
+    user_dict["id"] = str(db_user.id)
+
+    auth_user = AuthUser(**user_dict)
     
     return TokenOut(
         success=True,
@@ -52,7 +55,10 @@ async def refresh_token_service(refresh_token: str) -> TokenOut:
                 detail="User not found"
             )
 
-        auth_user = AuthUser(**db_user.model_dump())
+        user_dict = db_user.model_dump()
+        user_dict["id"] = str(db_user.id)
+
+        auth_user = AuthUser(**user_dict)
 
         token_data = {"sub": str(user_id), "username": username}
 
