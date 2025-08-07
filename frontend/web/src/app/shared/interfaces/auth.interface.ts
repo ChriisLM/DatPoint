@@ -8,7 +8,7 @@ export interface User {
 
 export interface LoginRequest {
   email: string;
-  password: string;
+  hash_password: string;
   rememberMe?: boolean;
 }
 
@@ -16,12 +16,14 @@ export interface RegisterRequest {
   username: string;
   full_name: string;
   email: string;
-  password: string;
+  hash_password: string;
 }
 
 export interface AuthResponse {
   success: boolean;
-  message: string;
+  access_token?: string;
+  refresh_token?: string;
+  token_type?: string;
   user?: User;
-  token?: string;
+  message: string;
 }

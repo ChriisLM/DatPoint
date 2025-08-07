@@ -102,7 +102,7 @@
           <input
             id="password"
             [type]="showPassword ? 'text' : 'password'"
-            formControlName="password"
+            formControlName="hash_password"
             class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-colors pr-10"
             [class.border-red-300]="password?.invalid && password?.touched"
             [class.focus:ring-red-500]="password?.invalid && password?.touched"

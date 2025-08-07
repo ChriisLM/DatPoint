@@ -24,7 +24,7 @@ export default class LoginPageComponent {
   constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      hash_password: ['', [Validators.required, Validators.minLength(6)]],
       rememberMe: [false],
     });
   }
@@ -39,7 +39,7 @@ export default class LoginPageComponent {
     this.authService.login(credentials).subscribe({
       next: (response) => {
         this.isLoading = false;
-
+        console.log('Respuesta del backend:', response);
         if (response.success) {
           // Redirige si todo fue bien
           this.router.navigate(['/dashboard']);
