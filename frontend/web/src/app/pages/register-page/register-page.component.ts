@@ -6,7 +6,9 @@ import {
   AbstractControl,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink} from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
+import { RegisterRequest } from '../../shared/interfaces/auth.interface';
 
 @Component({
   selector: 'app-register-page',
@@ -28,13 +30,13 @@ export default class RegisterPageComponent {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.registerForm = this.fb.group(
       {
-        firstName: ['', [Validators.required, Validators.minLength(2)]],
-        lastName: ['', [Validators.required, Validators.minLength(2)]],
+        username: ['', [Validators.required, Validators.minLength(2)]],
+        full_name: ['', [Validators.required, Validators.minLength(2)]],
         email: ['', [Validators.required, Validators.email]],
-        password: [
+        hash_password: [
           '',
           [
             Validators.required,
@@ -43,7 +45,6 @@ export default class RegisterPageComponent {
           ],
         ],
         confirmPassword: ['', [Validators.required]],
-        department: ['', [Validators.required]],
         acceptTerms: [false, [Validators.requiredTrue]],
       },
       { validators: this.passwordMatchValidator }
@@ -71,7 +72,7 @@ export default class RegisterPageComponent {
   passwordMatchValidator(
     group: AbstractControl
   ): { [key: string]: any } | null {
-    const password = group.get('password');
+    const password = group.get('hash_password');
     const confirmPassword = group.get('confirmPassword');
 
     if (!password || !confirmPassword) return null;
@@ -87,23 +88,24 @@ export default class RegisterPageComponent {
       this.errorMessage = '';
       this.successMessage = '';
 
-      // Simular llamada a API
-      setTimeout(() => {
-        const formData = this.registerForm.value;
-        delete formData.confirmPassword; // No enviar confirmPassword al backend
-        delete formData.acceptTerms; // No enviar acceptTerms al backend
+      const userData: RegisterRequest = {
+        username: this.registerForm.value.username,
+        full_name: this.registerForm.value.full_name,
+        email: this.registerForm.value.email,
+        hash_password: this.registerForm.value.hash_password,
+        role: 'user',
+      };
 
-        // Aquí iría tu lógica de registro
-        console.log('Register attempt:', formData);
-
-        // Simular respuesta exitosa
+      this.authService.register(userData).subscribe((response) => {
         this.isLoading = false;
-        this.successMessage = 'Account successfully created. Redirecting...';
-
-        setTimeout(() => {
+        if (response.success) {
+          this.successMessage = response.message;
+          this.registerForm.reset();
           this.router.navigate(['/login']);
-        }, 2000);
-      }, 2000);
+        } else {
+          this.errorMessage = response.message;
+        }
+      });
     } else {
       this.markFormGroupTouched();
     }
@@ -127,37 +129,23 @@ export default class RegisterPageComponent {
   }
 
   // Getters para fácil acceso a los controles del formulario
-  get firstName() {
-    return this.registerForm.get('firstName');
+  get username() {
+    return this.registerForm.get('username');
   }
-  get lastName() {
-    return this.registerForm.get('lastName');
+  get full_name() {
+    return this.registerForm.get('full_name');
   }
   get email() {
     return this.registerForm.get('email');
   }
-  get password() {
-    return this.registerForm.get('password');
+  get hash_password() {
+    return this.registerForm.get('hash_password');
   }
   get confirmPassword() {
     return this.registerForm.get('confirmPassword');
-  }
-  get department() {
-    return this.registerForm.get('department');
   }
   get acceptTerms() {
     return this.registerForm.get('acceptTerms');
   }
 
-  // Departamentos disponibles
-  departments = [
-    { value: 'it', label: 'Tecnología de la Información' },
-    { value: 'hr', label: 'Recursos Humanos' },
-    { value: 'finance', label: 'Finanzas' },
-    { value: 'marketing', label: 'Marketing' },
-    { value: 'operations', label: 'Operaciones' },
-    { value: 'sales', label: 'Ventas' },
-    { value: 'support', label: 'Soporte' },
-    { value: 'admin', label: 'Administración' },
-  ];
 }

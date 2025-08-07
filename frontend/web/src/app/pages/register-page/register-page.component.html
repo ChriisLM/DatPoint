@@ -1,7 +1,7 @@
 <div
   class="min-h-screen bg-gradient-to-br from-dark-primary to-dark-tertiary flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8"
 >
-  <div class="max-w-md w-full space-y-4">
+  <div class="max-w-lg w-full space-y-4">
     <!-- Header -->
     <div class="text-center">
       <div
@@ -52,320 +52,289 @@
 
       <!-- Name Fields -->
       <div class="grid grid-cols-2 gap-4">
-        <!-- First Name -->
+        <!-- user Name -->
         <div class="space-y-2">
           <label
-            for="firstName"
+            for="userName"
             class="block text-sm font-medium text-light-tertiary"
           >
-            Name
+            User Name
           </label>
           <input
-            id="firstName"
+            id="userName"
             type="text"
-            formControlName="firstName"
+            formControlName="username"
             class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
-            [class.border-red-300]="firstName?.invalid && firstName?.touched"
+            [class.border-red-300]="username?.invalid && username?.touched"
             [class.focus:ring-red-500]="
-              firstName?.invalid && firstName?.touched
+              username?.invalid && username?.touched
             "
             [class.focus:border-red-500]="
-              firstName?.invalid && firstName?.touched
+              username?.invalid && username?.touched
             "
-            placeholder="Your Name"
+            placeholder="Your user name"
           />
-          @if (firstName?.invalid && firstName?.touched) {
+          @if (username?.invalid && username?.touched) {
           <div class="text-red-400 text-xs mt-1">
-            @if (firstName?.errors?.['required']) {
-            <span>Name is required</span>
-            } @else if (firstName?.errors?.['minlength']) {
+            @if (username?.errors?.['required']) {
+            <span>user name is required</span>
+            } @else if (username?.errors?.['minlength']) {
             <span>Minimum 2 characters</span>
             }
           </div>
           }
         </div>
 
-        <!-- Last Name -->
+        <!-- Email Field -->
         <div class="space-y-2">
-          <label for="lastName" class="block text-sm font-medium text-light-tertiary">
-            Last name
+          <label for="email" class="block text-sm font-medium text-light-tertiary">
+            E-mail
           </label>
-          <input
-            id="lastName"
-            type="text"
-            formControlName="lastName"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
-            [class.border-red-300]="lastName?.invalid && lastName?.touched"
-            [class.focus:ring-red-500]="lastName?.invalid && lastName?.touched"
-            [class.focus:border-red-500]="
-              lastName?.invalid && lastName?.touched
-            "
-            placeholder="Your Last name"
-          />
-          @if (lastName?.invalid && lastName?.touched) {
+          <div class="mt-1 relative">
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
+              [class.border-red-300]="email?.invalid && email?.touched"
+              [class.focus:ring-red-500]="email?.invalid && email?.touched"
+              [class.focus:border-red-500]="email?.invalid && email?.touched"
+              placeholder="correo@empresa.com"
+            />
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+              <svg
+                class="h-5 w-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                />
+              </svg>
+            </div>
+          </div>
+          @if (email?.invalid && email?.touched) {
           <div class="text-red-400 text-xs mt-1">
-            @if (lastName?.errors?.['required']) {
-            <span>Last name is required</span>
-            } @else if (lastName?.errors?.['minlength']) {
-            <span>Minimum 2 characters</span>
+            @if (email?.errors?.['required']) {
+            <span>E-mail is required</span>
+            } @else if (email?.errors?.['email']) {
+            <span>Enter a valid email address</span>
             }
           </div>
           }
         </div>
       </div>
 
-      <!-- Email Field -->
+      <!-- full Name -->
       <div class="space-y-2">
-        <label for="email" class="block text-sm font-medium text-light-tertiary">
-          E-mail
+        <label for="full_Name" class="block text-sm font-medium text-light-tertiary">
+          Full name
         </label>
-        <div class="mt-1 relative">
-          <input
-            id="email"
-            type="email"
-            formControlName="email"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
-            [class.border-red-300]="email?.invalid && email?.touched"
-            [class.focus:ring-red-500]="email?.invalid && email?.touched"
-            [class.focus:border-red-500]="email?.invalid && email?.touched"
-            placeholder="correo@empresa.com"
-          />
-          <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-            <svg
-              class="h-5 w-5 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-              />
-            </svg>
-          </div>
-        </div>
-        @if (email?.invalid && email?.touched) {
-        <div class="text-red-400 text-xs mt-1">
-          @if (email?.errors?.['required']) {
-          <span>E-mail is required</span>
-          } @else if (email?.errors?.['email']) {
-          <span>Enter a valid email address</span>
-          }
-        </div>
-        }
-      </div>
-
-      <!-- Department Field -->
-      <div class="space-y-2">
-        <label for="department" class="block text-sm font-medium text-light-tertiary">
-          Department
-        </label>
-        <select
-          id="department"
-          formControlName="department"
+        <input
+          id="full_Name"
+          type="text"
+          formControlName="full_name"
           class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors"
-          [class.border-red-300]="department?.invalid && department?.touched"
-          [class.focus:ring-red-500]="
-            department?.invalid && department?.touched
-          "
+          [class.border-red-300]="full_name?.invalid && full_name?.touched"
+          [class.focus:ring-red-500]="full_name?.invalid && full_name?.touched"
           [class.focus:border-red-500]="
-            department?.invalid && department?.touched
+            full_name?.invalid && full_name?.touched
           "
-        >
-          <option value="">Select your department</option>
-          @for (dept of departments; track $index) {
-          <option [value]="dept.value">
-            {{ dept.label }}
-          </option>
-          }
-        </select>
-        @if (department?.invalid && department?.touched) {
+          placeholder="Your full name"
+        />
+        @if (full_name?.invalid && full_name?.touched) {
         <div class="text-red-400 text-xs mt-1">
-          @if (department?.errors?.['required']) {
-          <span>The department is required</span>
+          @if (full_name?.errors?.['required']) {
+          <span>full name is required</span>
+          } @else if (full_name?.errors?.['minlength']) {
+          <span>Minimum 2 characters</span>
           }
         </div>
         }
       </div>
 
-      <!-- Password Field -->
-      <div class="space-y-2">
-        <label for="password" class="block text-sm font-medium text-light-tertiary">
-          Password
-        </label>
-        <div class="mt-1 relative">
-          <input
-            id="password"
-            [type]="showPassword ? 'text' : 'password'"
-            formControlName="password"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
-            [class.border-red-300]="password?.invalid && password?.touched"
-            [class.focus:ring-red-500]="password?.invalid && password?.touched"
-            [class.focus:border-red-500]="
-              password?.invalid && password?.touched
-            "
-            placeholder="Your password"
-          />
-          <button
-            type="button"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center"
-            (click)="togglePasswordVisibility()"
-          >
-            @if (!showPassword) {
-            <svg
-              class="h-5 w-5 text-gray-400 hover:text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Password Field -->
+        <div class="space-y-2">
+          <label for="password" class="block text-sm font-medium text-light-tertiary">
+            Password
+          </label>
+          <div class="mt-1 relative">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="hash_password"
+              class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
+              [class.border-red-300]="hash_password?.invalid && hash_password?.touched"
+              [class.focus:ring-red-500]="hash_password?.invalid && hash_password?.touched"
+              [class.focus:border-red-500]="
+                hash_password?.invalid && hash_password?.touched
+              "
+              placeholder="Your password"
+            />
+            <button
+              type="button"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center"
+              (click)="togglePasswordVisibility()"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              />
-            </svg>
-            } @if (showPassword) {
-            <svg
-              class="h-5 w-5 text-gray-400 hover:text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-              />
-            </svg>
-            }
-          </button>
-        </div>
-        @if (password?.invalid && password?.touched) {
-        <div class="text-red-400 text-xs mt-1">
-          @if (password?.errors?.['required']) {
-          <span>Password is required</span>
-          } @else if (password?.errors?.['minlength']) {
-          <span>Minimum 8 characters</span>
-          } @else if (password?.errors?.['passwordStrength']) {
-          <span>
-            Must contain: uppercase, lowercase, number and special character
-          </span>
-          }
-        </div>
-        }
-        <!-- Password Strength Indicator -->
-        @if (password?.value) {
-        <div class="mt-2">
-          <div class="flex space-x-1">
-            <div
-              class="h-1 flex-1 rounded"
-              [class.bg-red-300]="password?.errors?.['passwordStrength']"
-              [class.bg-green-400]="!password?.errors?.['passwordStrength'] && password?.value?.length >= 8"
-            ></div>
-            <div
-              class="h-1 flex-1 rounded"
-              [class.bg-gray-200]="password?.errors?.['passwordStrength'] || password?.value?.length < 10"
-              [class.bg-green-400]="!password?.errors?.['passwordStrength'] && password?.value?.length >= 10"
-            ></div>
-            <div
-              class="h-1 flex-1 rounded"
-              [class.bg-gray-200]="password?.errors?.['passwordStrength'] || password?.value?.length < 12"
-              [class.bg-green-400]="!password?.errors?.['passwordStrength'] && password?.value?.length >= 12"
-            ></div>
+              @if (!showPassword) {
+              <svg
+                class="h-5 w-5 text-gray-400 hover:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              } @if (showPassword) {
+              <svg
+                class="h-5 w-5 text-gray-400 hover:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                />
+              </svg>
+              }
+            </button>
           </div>
-          <p
-            class="text-xs mt-1"
-            [class.text-red-500]="password?.errors?.['passwordStrength']"
-            [class.text-green-600]="!password?.errors?.['passwordStrength']"
-          >
-            {{ password?.errors?.['passwordStrength'] ? 'Weak password' : 'Secure password' }}
-          </p>
-        </div>
-        }
-      </div>
-
-      <!-- Confirm Password Field -->
-      <div class="space-y-2">
-        <label
-          for="confirmPassword"
-          class="block text-sm font-medium text-light-tertiary"
-        >
-          Confirm password
-        </label>
-        <div class="mt-1 relative">
-          <input
-            id="confirmPassword"
-            [type]="showConfirmPassword ? 'text' : 'password'"
-            formControlName="confirmPassword"
-            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
-            [class.border-red-300]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
-            [class.focus:ring-red-500]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
-            [class.focus:border-red-500]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
-            placeholder="Confirm your password"
-          />
-          <button
-            type="button"
-            class="absolute inset-y-0 right-0 pr-3 flex items-center"
-            (click)="toggleConfirmPasswordVisibility()"
-          >
-            @if (!showConfirmPassword) {
-            <svg
-              class="h-5 w-5 text-gray-400 hover:text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              />
-            </svg>
-            } @if (showConfirmPassword) {
-            <svg
-              class="h-5 w-5 text-gray-400 hover:text-gray-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-              />
-            </svg>
+          @if (hash_password?.invalid && hash_password?.touched) {
+          <div class="text-red-400 text-xs mt-1">
+            @if (hash_password?.errors?.['required']) {
+            <span>Password is required</span>
+            } @else if (hash_password?.errors?.['minlength']) {
+            <span>Minimum 8 characters</span>
+            } @else if (hash_password?.errors?.['passwordStrength']) {
+            <span>
+              Must contain: uppercase, lowercase, number and special character
+            </span>
             }
-          </button>
-        </div>
-        @if ((confirmPassword?.invalid && confirmPassword?.touched) ||
-        (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched))
-        {
-        <div class="text-red-400 text-xs mt-1">
-          @if (confirmPassword?.errors?.['required']) {
-          <span>Password confirmation is required</span>
-          } @else if (registerForm.errors?.['passwordMismatch']) {
-          <span>Passwords do not match</span>
+          </div>
+          }
+          <!-- Password Strength Indicator -->
+          @if (hash_password?.value) {
+          <div class="mt-2">
+            <div class="flex space-x-1">
+              <div
+                class="h-1 flex-1 rounded"
+                [class.bg-red-300]="hash_password?.errors?.['passwordStrength']"
+                [class.bg-green-400]="!hash_password?.errors?.['passwordStrength'] && hash_password?.value?.length >= 8"
+              ></div>
+              <div
+                class="h-1 flex-1 rounded"
+                [class.bg-gray-200]="hash_password?.errors?.['passwordStrength'] || hash_password?.value?.length < 10"
+                [class.bg-green-400]="!hash_password?.errors?.['passwordStrength'] && hash_password?.value?.length >= 10"
+              ></div>
+              <div
+                class="h-1 flex-1 rounded"
+                [class.bg-gray-200]="hash_password?.errors?.['passwordStrength'] || hash_password?.value?.length < 12"
+                [class.bg-green-400]="!hash_password?.errors?.['passwordStrength'] && hash_password?.value?.length >= 12"
+              ></div>
+            </div>
+            <p
+              class="text-xs mt-1"
+              [class.text-red-500]="hash_password?.errors?.['passwordStrength']"
+              [class.text-green-600]="!hash_password?.errors?.['passwordStrength']"
+            >
+              {{ hash_password?.errors?.['passwordStrength'] ? 'Weak password' : 'Secure password' }}
+            </p>
+          </div>
           }
         </div>
-        }
+  
+        <!-- Confirm Password Field -->
+        <div class="space-y-2">
+          <label
+            for="confirmPassword"
+            class="block text-sm font-medium text-light-tertiary"
+          >
+            Confirm password
+          </label>
+          <div class="mt-1 relative">
+            <input
+              id="confirmPassword"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-light-muted text-light-secondary rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm transition-colors pr-10"
+              [class.border-red-300]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
+              [class.focus:ring-red-500]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
+              [class.focus:border-red-500]="(confirmPassword?.invalid && confirmPassword?.touched) || (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched)"
+              placeholder="Confirm your password"
+            />
+            <button
+              type="button"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center"
+              (click)="toggleConfirmPasswordVisibility()"
+            >
+              @if (!showConfirmPassword) {
+              <svg
+                class="h-5 w-5 text-gray-400 hover:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              } @if (showConfirmPassword) {
+              <svg
+                class="h-5 w-5 text-gray-400 hover:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                />
+              </svg>
+              }
+            </button>
+          </div>
+          @if ((confirmPassword?.invalid && confirmPassword?.touched) ||
+          (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched))
+          {
+          <div class="text-red-400 text-xs mt-1">
+            @if (confirmPassword?.errors?.['required']) {
+            <span>Password confirmation is required</span>
+            } @else if (registerForm.errors?.['passwordMismatch']) {
+            <span>Passwords do not match</span>
+            }
+          </div>
+          }
+        </div>
       </div>
 
       <!-- Terms and Conditions -->
