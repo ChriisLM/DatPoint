@@ -1,6 +1,7 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { IconsModule } from '../../icons/icons.module';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'dtp-config-menu',
@@ -16,7 +17,7 @@ export class ConfigMenuComponent {
     { label: 'Log Out', icon: 'LogOut' },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   selectOption(option: string) {
     switch (option) {
@@ -35,8 +36,8 @@ export class ConfigMenuComponent {
   }
 
   logout() {
-    // this.authService.logout();
-    this.router.navigate(['/']);
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   @HostListener('document:click', ['$event'])

@@ -39,7 +39,6 @@ export default class LoginPageComponent {
     this.authService.login(credentials).subscribe({
       next: (response) => {
         this.isLoading = false;
-        console.log('Respuesta del backend:', response);
         if (response.success) {
           // Redirige si todo fue bien
           this.router.navigate(['/dashboard']);
