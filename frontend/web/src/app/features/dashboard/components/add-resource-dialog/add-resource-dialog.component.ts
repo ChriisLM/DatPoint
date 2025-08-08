@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { DialogStateService } from '../../services/DialogStateService.service';
 import { NgClass } from '@angular/common';
+import { ResourceService } from '../../../../shared/services/Resource.service';
 
 
 @Component({
@@ -34,11 +35,6 @@ export class AddResourceDialogComponent {
 
   @Input() visible = false;
   @Output() cancelDialog = new EventEmitter<void>();
-  @Output() saveDialog = new EventEmitter<{
-    type: string;
-    data: any;
-    file: File | null;
-  }>();
 
   activeTab = 0;
   dragActive = false;
@@ -50,7 +46,8 @@ export class AddResourceDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    private modalService: DialogStateService
+    private modalService: DialogStateService,
+    private resourceService: ResourceService
   ) {
     this.fileForm = this.fb.group({
       title: ['', Validators.required],
@@ -140,6 +137,12 @@ export class AddResourceDialogComponent {
     else return (bytes / 1024 / 1024).toFixed(2) + ' MB';
   }
 
+  getFileExtension(filePath: string): string {
+    const parts = filePath.split(".");
+    return parts.length > 1 ? parts.pop()!.toLowerCase() : "";
+  }
+
+
   //funciones de los botones
   onCancel() {
     this.cancelDialog.emit();
@@ -149,10 +152,59 @@ export class AddResourceDialogComponent {
   onSave() {
     const form = this.activeTab === 0 ? this.fileForm : this.linkForm;
     if (form.valid) {
-      this.saveDialog.emit({
-        type: this.activeTab === 0 ? 'file' : 'link',
-        data: form.value,
-        file: this.selectedFile,
+      const formValue = form.value;
+      const userString = sessionStorage.getItem('user'); // o la key que usas para guardar el user
+      let createdBy = '';
+      if (userString) {
+        try {
+          const user = JSON.parse(userString);
+          createdBy = user.id || user.userId || user.uuid || ''; // usa el campo correcto del user
+        } catch {
+          console.warn('Error parsing user from localStorage');
+        }
+      }
+      let resourceType: 'Url' | 'Image' | 'Video' | 'File';
+      if (this.activeTab === 1) {
+        resourceType = 'Url';
+      } else if (this.activeTab === 0 && this.selectedFile) {
+        const mimeType = this.selectedFile.type;
+        if (mimeType.startsWith('image/')) {
+          resourceType = 'Image';
+        } else if (mimeType.startsWith('video/')) {
+          resourceType = 'Video';
+        } else {
+          resourceType = 'File';
+        }
+      } else {
+        resourceType = 'File';
+      }
+      const priorityResource: "low" | "normal" | "high" = "normal"
+      const payload = {
+        title: formValue.title,
+        description: formValue.description || '',
+        resource_type: resourceType,
+        format: formValue.file_path 
+          ? this.getFileExtension(formValue.file_path) // si hay archivo => extensión
+          : "link",
+        file_path: this.activeTab === 0 ? '/uploads/' + (this.selectedFile?.name || '') : undefined,
+        link_url: this.activeTab === 1 ? formValue.url : undefined,
+        metadata: {},
+        tags: formValue.tags ? formValue.tags.split(',').map((t: string) => t.trim()) : [],
+        is_public: true,
+        priority: priorityResource,
+        work_space: formValue.workspace || '',
+        favorite: false,
+        created_by: createdBy
+      };
+
+      this.resourceService.createResource(payload).subscribe({
+        next: (res) => {
+          console.log('Recurso creado:', res);
+          this.modalService.setModalOpen(false);
+        },
+        error: (err) => {
+          console.error('Error creando recurso:', err);
+        }
       });
     } else {
       Object.values(form.controls).forEach((ctrl) => ctrl.markAsTouched());

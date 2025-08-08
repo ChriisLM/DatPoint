@@ -1,3 +1,5 @@
+import { ResourceType } from "../../features/dashboard/interfaces/dashboard.interface";
+
 export interface Resource {
   id: string;
   title: string;
@@ -17,20 +19,21 @@ export interface Resource {
   favorite: boolean;
 }
 
+
 export interface CreateResourceRequest {
   title: string;
   description?: string;
-  resource_type: string;
-  format: string;
+  resource_type: ResourceType;
+  format?: string;
   file_path?: string;
   link_url?: string;
-  metadata?: Record<string, any>;
-  tags?: string[];
-  is_public?: boolean;
-  priority?: string;
+  metadata?: { [key: string]: any };
+  tags: string[];
   created_by: string;
+  is_public?: boolean;
+  priority?: 'low' | 'normal' | 'high';
   work_space?: string;
-  favorite: boolean;
+  favorite?: boolean;
 }
 
 export interface UpdateResourceRequest {
