@@ -4,18 +4,18 @@ export interface Resource {
   id: string;
   title: string;
   description?: string;
-  resource_type: string;
-  format: string;
+  resource_type: ResourceType;
+  format?: string;
   file_path?: string;
   link_url?: string;
-  metadata?: Record<string, any>;
-  tags?: string[];
-  is_public: boolean;
-  priority?: string;
+  metadata?: { [key: string]: any };
+  tags: string[];
   created_by: string;
   created_at: string;
-  updated_at: string;
-  work_space?: string;
+  updated_at?: string;
+  is_public?: boolean;
+  priority?: 'low' | 'normal' | 'high';
+  work_space: string;
   favorite: boolean;
 }
 

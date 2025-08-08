@@ -153,7 +153,7 @@ export class AddResourceDialogComponent {
     const form = this.activeTab === 0 ? this.fileForm : this.linkForm;
     if (form.valid) {
       const formValue = form.value;
-      const userString = sessionStorage.getItem('user'); // o la key que usas para guardar el user
+      const userString = sessionStorage.getItem('auth_user'); // o la key que usas para guardar el user
       let createdBy = '';
       if (userString) {
         try {

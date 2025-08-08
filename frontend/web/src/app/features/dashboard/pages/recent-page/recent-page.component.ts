@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { PreviewSectionComponent } from '../../components/preview-section/preview-section.component';
 import { CardResourceComponent } from "../../components/card-resource/card-resource.component";
 import { BatchActionsComponent } from "../../components/batch-actions/batch-actions.component";
-import { Resource } from '../../interfaces/dashboard.interface';
+import { Resource, ResourceType } from '../../interfaces/dashboard.interface';
 import { CardListResourceComponent } from '../../components/card-list-resource/card-list-resource.component';
+import { ResourceService } from '../../../../shared/services/Resource.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'dtp-recent-page',
@@ -23,43 +25,41 @@ export default class RecentPageComponent {
     icon: 'Clock',
   };
 
+  validPriorities = ['low', 'normal', 'high'] as const;
+
   selectedResources: string[] = [];
   
-  resources: Resource[] = [
-    {
-      id: '1',
-      title: 'Guía de Angular 19',
-      description: 'Una guía completa sobre las nuevas características de Angular 19 y cómo implementarlas en proyectos reales.',
-      created_by: 'Juan Pérez',
-      work_space: 'work',
-      tags: ['angular', 'typescript', 'desarrollo', 'frontend'],
-      created_at: '2024-12-15T10:30:00Z',
-      resource_type: 'File',
-      favorite: true
-    },
-    {
-      id: '2',
-      title: 'Componentes Reutilizables con Tailwind',
-      description: 'Aprende a crear componentes reutilizables utilizando Tailwind CSS y las mejores prácticas de diseño.',
-      created_by: 'María García',
-      work_space: 'personal',
-      tags: ['tailwind', 'css', 'components'],
-      created_at: '2024-12-10T14:20:00Z',
-      resource_type: 'Video',
-      favorite: false
-    },
-    {
-      id: '3',
-      title: 'Arquitectura de Microservicios',
-      description: 'Diseño y implementación de una arquitectura de microservicios escalable usando Docker y Kubernetes.',
-      created_by: 'Carlos Rodríguez',
-      work_space: 'project',
-      tags: ['microservicios', 'docker', 'kubernetes', 'backend', 'arquitectura'],
-      created_at: '2024-12-05T09:15:00Z',
-      resource_type: 'Url',
-      favorite: true
-    }
-  ];
+  resources: Resource[] = [];
+
+  constructor(private resourceService: ResourceService, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    console.log('Token:', this.authService.getToken());
+    this.loadMyResources();
+  }
+
+  loadMyResources(): void {
+    this.resourceService.getMyResources().subscribe({
+      next: (resources) => {
+        this.resources = resources.map(r => ({
+          ...r,
+          resource_type: this.toResourceType(r.resource_type),
+          tags: r.tags ?? [],
+          priority: this.validPriorities.includes(r.priority as any) ? (r.priority as 'low' | 'normal' | 'high') : 'normal',
+          work_space: r.work_space ?? '',
+        }));
+      },
+      error: (err) => {
+        console.error('Error al cargar recursos del usuario:', err);
+        this.resources = [];
+      },
+    });
+  }
+
+  toResourceType(value: string): ResourceType {
+    const validTypes: ResourceType[] = ['Url', 'Image', 'Video', 'File'];
+    return validTypes.includes(value as ResourceType) ? (value as ResourceType) : 'File';
+  }
 
   onSelectionChange(resourceId: string): void {
     const index = this.selectedResources.indexOf(resourceId);
