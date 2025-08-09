@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from uuid import UUID
 
 from app.models.resource_model import ResourceCreate, ResourceOut, ResourceUpdate
-from app.models.user_model import UserOut
+from app.models.user_model import UserDataOut, UserOut
 from app.services.resource_services import (
     create_resource,
     delete_resource_by_id,
@@ -28,7 +28,7 @@ async def create_new_resource(resource: ResourceCreate):
 
 
 @router.get("/me", response_model=List[ResourceOut])
-async def get_resources_by_me(current_user: UserOut = Depends(get_current_user)):
+async def get_resources_by_me(current_user: UserDataOut = Depends(get_current_user)):
     list_resources = await list_resources_by_user(current_user)
     return list_resources
 
@@ -58,7 +58,7 @@ async def get_resource(resource_id: UUID):
 async def update_resource_by_id(
     resource_id: UUID,
     resource_data: ResourceUpdate,
-    user: UserOut = Depends(get_current_user),
+    user: UserDataOut = Depends(get_current_user),
 ):
     updated_resource = await update_resource(resource_id, resource_data, user.id)
     if not updated_resource:

@@ -72,7 +72,7 @@ async def get_user_by_email(email: str) -> Optional[UserDataOut]:
         return None
 
     user = response.data[0]
-    return UserOut(**user)
+    return UserDataOut(**user)
 
 
 async def get_user_by_id(user_id: UUID) -> Optional[UserDataOut]:
@@ -86,7 +86,7 @@ async def get_user_by_id(user_id: UUID) -> Optional[UserDataOut]:
     if not response.data:
         return None
 
-    return UserOut(**response.data)
+    return UserDataOut(**response.data)
 
 
 async def update_current_user(
