@@ -7,7 +7,7 @@ from uuid import UUID
 
 from app.config import settings
 from app.database.supabase_client import supabase as supabase_Configured
-from app.models.user_model import UserCreate, UserLoginOut, UserOut, UserUpdate
+from app.models.user_model import UserCreate, UserLoginOut, UserOut, UserUpdate, UserDataOut
 from app.utils.security import hash_password
 
 supabase = supabase_Configured
@@ -32,7 +32,7 @@ async def create_user(user_data: UserCreate) -> UserOut:
     return UserOut(**created_user)
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserOut:
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserDataOut:
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -62,7 +62,7 @@ async def get_user_by_email_verify(email: str) -> Optional[UserLoginOut]:
     return UserLoginOut(**user)
 
 
-async def get_user_by_email(email: str) -> Optional[UserOut]:
+async def get_user_by_email(email: str) -> Optional[UserDataOut]:
     response = supabase.table("users").select("*").eq("email", email).execute()
 
     if hasattr(response, "error") and response.error:
@@ -75,7 +75,7 @@ async def get_user_by_email(email: str) -> Optional[UserOut]:
     return UserOut(**user)
 
 
-async def get_user_by_id(user_id: UUID) -> Optional[UserOut]:
+async def get_user_by_id(user_id: UUID) -> Optional[UserDataOut]:
     response = (
         supabase.table("users").select("*").eq("id", str(user_id)).single().execute()
     )

@@ -47,3 +47,13 @@ class UserLoginOut(UserBase):
 
     class Config:
         from_attributes = True
+
+
+class UserDataOut(UserBase):
+    id: UUID
+    created_at: datetime
+    updated_at: datetime
+    is_active: bool
+
+    class Config:
+        from_attributes = True
