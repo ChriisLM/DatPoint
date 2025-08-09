@@ -9,9 +9,11 @@ from app.services.resource_services import (
     create_resource,
     delete_resource_by_id,
     get_resource_by_id,
+    list_favorite_resources,
     list_resources_by_date_range,
     list_resources_by_format,
     list_resources_by_user,
+    list_resources_by_workspace_name,
     update_resource,
 )
 from app.services.user_services import get_current_user
@@ -67,3 +69,12 @@ async def update_resource_by_id(
 @router.delete("/{resource_id}")
 async def delete_resource(resource_id: UUID):
     return await delete_resource_by_id(resource_id)
+
+
+@router.get("/favorites")
+async def get_favorite_resources():
+    return await list_favorite_resources()
+
+@router.get("/workspace/{workspace_name}")
+async def get_resources_by_workspace_name(workspace_name: str):
+    return await list_resources_by_workspace_name(workspace_name)

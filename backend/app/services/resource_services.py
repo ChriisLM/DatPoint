@@ -81,7 +81,7 @@ async def list_resources_by_format(format: str) -> List[ResourceOut]:
     response = (
         supabase.table("resources")
         .select("*")
-        .ilike("format", normalized_format)
+        .ilike("resource_type", normalized_format)
         .execute()
     )
 
@@ -168,6 +168,40 @@ async def list_resources_by_date_range(
             status_code=500,
             detail=f"Error filtering resources by date: {response.error}",
         )
+
+    if not response.data:
+        return []
+
+    return [ResourceOut(**item) for item in response.data]
+
+
+async def list_favorite_resources() -> List[ResourceOut]:
+    response = (
+        supabase.table("resources")
+        .select("*")
+        .eq("favorite", True)
+        .execute()
+    )
+
+    if hasattr(response, "error") and response.error:
+        raise HTTPException(status_code=500, detail="Error fetching favorite resources")
+
+    if not response.data:
+        return []
+
+    return [ResourceOut(**item) for item in response.data]
+
+
+async def list_resources_by_workspace_name(workspace_name: str) -> List[ResourceOut]:
+    response = (
+        supabase.table("resources")
+        .select("*")
+        .eq("work_space", workspace_name)
+        .execute()
+    )
+
+    if hasattr(response, "error") and response.error:
+        raise HTTPException(status_code=500, detail="Error fetching resources by workspace name")
 
     if not response.data:
         return []
